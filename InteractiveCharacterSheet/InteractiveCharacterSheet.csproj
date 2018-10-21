@@ -108,5 +108,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLDataSheets\Skills\Skills.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo d | XCOPY "$(ProjectDir)XMLDataSheets" "$(TargetDir)XMLDataSheets" /S /Y /C</PostBuildEvent>
+  </PropertyGroup>
 </Project>

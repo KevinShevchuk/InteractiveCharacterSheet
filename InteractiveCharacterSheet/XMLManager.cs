@@ -9,14 +9,15 @@ namespace InteractiveCharacterSheet
 {
     class XMLManager
     {
+        private string _executableUrl;
+
         public XMLManager()
         {
-            
+            _executableUrl = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
         }
 
         public CharacterSheetData SaveCharacterSheet(CharacterSheetData csd, string inputUrl)
         {
-            string error = string.Empty;
             try
             {
                 XmlWriter xmlWriter = XmlWriter.Create(inputUrl);
@@ -39,14 +40,6 @@ namespace InteractiveCharacterSheet
                 xmlWriter.WriteAttributeString("occupation", csd.Occupation);
                 xmlWriter.WriteAttributeString("languages", csd.Languages);
                 xmlWriter.WriteAttributeString("biography", ParagraphsToText(csd.Biography));
-                //xmlWriter.WriteStartElement("Biography");
-                //foreach(Paragraph p in csd.Biography)
-                //{
-                //    xmlWriter.WriteStartElement("Paragraph");
-                //    xmlWriter.WriteAttributeString("text", p.T)
-                //}
-
-                //, csd.Biography);
                 xmlWriter.WriteEndElement(); //Character
 
                 xmlWriter.WriteEndElement(); //CharacterSheet
@@ -56,7 +49,7 @@ namespace InteractiveCharacterSheet
             }
             catch (Exception ex)
             {
-                csd.ErrorMessage = ex.Message;
+                csd.Error = new Error(ex.Message);
             }
 
             return csd;
@@ -65,7 +58,6 @@ namespace InteractiveCharacterSheet
         public CharacterSheetData LoadCharacterSheet(string inputUrl)
         {
             CharacterSheetData csd = new CharacterSheetData();
-            string error = String.Empty;
             try
             {
                 using (XmlReader reader = XmlReader.Create(inputUrl))
@@ -96,34 +88,63 @@ namespace InteractiveCharacterSheet
             }
             catch (Exception ex)
             {
-                csd.ErrorMessage = ex.Message;
+                csd.Error = new Error(ex.Message);
             }
 
             return csd;
         }
 
-        static IEnumerable<XElement> SimpleStreamAxis(string inputUrl,
-                                              string elementName)
+        public List<CharacterSkill> LoadSkills()
         {
-            using (XmlReader reader = XmlReader.Create(inputUrl))
+            List<CharacterSkill> skills = new List<CharacterSkill>();
+            try
             {
-                reader.MoveToContent();
-                while (reader.Read())
+                using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))
                 {
-                    if (reader.NodeType == XmlNodeType.Element)
+                    reader.ReadToFollowing("Skills");
+                    while (reader.Read())
                     {
-                        if (reader.Name == elementName)
+                        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "Skill"))
                         {
-                            XElement el = XNode.ReadFrom(reader) as XElement;
-                            if (el != null)
-                            {
-                                yield return el;
-                            }
+                            CharacterSkill skill = new CharacterSkill();
+
+                            reader.ReadToFollowing("Name");
+                            Enum.TryParse<SkillName>(reader.ReadElementContentAsString(), out SkillName sn);
+                            skill.SkillName = sn;
+
+                            reader.ReadToFollowing("DisplayName");
+                            skill.SkillDisplayName = reader.GetAttribute("displayname");
+
+                            reader.ReadToFollowing("GoverningAbilityScore");
+                            Enum.TryParse<AbilityScoreName>(reader.ReadElementContentAsString(), out AbilityScoreName an);
+                            skill.GoverningAbilityScore = an;
+
+                            reader.ReadToFollowing("AppliesArmorCheckPenalty");
+                            skill.AppliesArmorCheckPenalty = reader.ReadElementContentAsBoolean();
+
+                            reader.ReadToFollowing("IsCraftSkill");
+                            skill.IsCraftSkill = reader.ReadElementContentAsBoolean();
+
+                            reader.ReadToFollowing("IsProfession");
+                            skill.IsProfession = reader.ReadElementContentAsBoolean();
+
+                            reader.ReadToFollowing("Description");
+                            skill.Description = TextToParagraphs(reader.GetAttribute("description"));
+
+                            skills.Add(skill);
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                 new Error(ex.Message);
+            }
+
+            return skills;
         }
+
+        #region "Support Functions"
 
         private List<Paragraph> TextToParagraphs(string text)
         {
@@ -156,5 +177,7 @@ namespace InteractiveCharacterSheet
 
             return text;
         }
+
+        #endregion
     }
 }

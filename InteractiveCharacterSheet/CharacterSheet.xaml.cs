@@ -43,9 +43,9 @@ namespace InteractiveCharacterSheet
                 inputUrl = saveFileDialog1.FileName;
                 SaveBiography();
                 CharSheetPresenter.SaveCharacterSheet(inputUrl);
-                if (CharSheetPresenter.CharSheetData.ErrorMessage != string.Empty)
+                if (CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
                 {
-                    MessageBox.Show(CharSheetPresenter.CharSheetData.ErrorMessage, "Error", MessageBoxButton.OK);
+                    MessageBox.Show(CharSheetPresenter.CharSheetData.Error.ErrorMessage, "Error", MessageBoxButton.OK);
                 }
                 else
                 {
@@ -72,9 +72,9 @@ namespace InteractiveCharacterSheet
             if (inputUrl != null)
             {
                 CharSheetPresenter.LoadCharacterSheet(inputUrl);
-                if (CharSheetPresenter.CharSheetData.ErrorMessage != string.Empty)
+                if (CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
                 {
-                    MessageBox.Show(CharSheetPresenter.CharSheetData.ErrorMessage, "Error", MessageBoxButton.OK);
+                    MessageBox.Show(CharSheetPresenter.CharSheetData.Error.ErrorMessage, "Error", MessageBoxButton.OK);
                 }
                 else
                 {

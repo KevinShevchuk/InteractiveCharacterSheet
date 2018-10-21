@@ -9,9 +9,6 @@ namespace InteractiveCharacterSheet
 {
     class CharacterSheetData
     {
-        //internal data not for display
-        public string ErrorMessage = string.Empty;
-
         private string _characterName = string.Empty;
         private string _playerName = string.Empty;
         private int _level = 0;
@@ -34,6 +31,8 @@ namespace InteractiveCharacterSheet
         private CharacterAbilityScore _charisma = new CharacterAbilityScore();
         private List<CharacterSkill> _skills;
 
+        public Error Error;
+
         public string CharacterName { get => _characterName; set => _characterName = value; }
         public string PlayerName { get => _playerName; set => _playerName = value; }
         public int Level { get => _level; set => _level = value; }
@@ -55,7 +54,6 @@ namespace InteractiveCharacterSheet
         internal CharacterAbilityScore Wisdom { get => _wisdom; set => _wisdom = value; }
         internal CharacterAbilityScore Charisma { get => _charisma; set => _charisma = value; }
         public List<CharacterSkill> Skills { get => _skills; set => _skills = value; }
-
 
         public CharacterSheetData()
         {
