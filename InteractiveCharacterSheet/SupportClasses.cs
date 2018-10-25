@@ -147,7 +147,7 @@ namespace InteractiveCharacterSheet
         private bool appliesArmorCheckPenalty;
         private int _baseSkillValue = 0;
         private List<Paragraph> _description = new List<Paragraph>();
-        private List<SkillModification> _skillModifiers;
+        private LinkedList<SkillModification> _skillModifiers;
         private bool _isClassSkill = false;
         private bool _isCraftSkill = false;
         private bool _isProfession = false;
@@ -159,7 +159,7 @@ namespace InteractiveCharacterSheet
         public bool AppliesArmorCheckPenalty { get => appliesArmorCheckPenalty; set => appliesArmorCheckPenalty = value; }
         public int BaseSkillValue { get => _baseSkillValue; set => _baseSkillValue = value; }
         public List<Paragraph> Description { get => _description; set => _description = value; }
-        internal List<SkillModification> SkillModifiers { get => _skillModifiers; set => _skillModifiers = value; }
+        internal LinkedList<SkillModification> SkillModifiers { get => _skillModifiers; set => _skillModifiers = value; }
         public bool IsClassSkill { get => _isClassSkill; set => _isClassSkill = value; }
         public bool IsCraftSkill { get => _isCraftSkill; set => _isCraftSkill = value; }
         public bool IsProfession { get => _isProfession; set => _isProfession = value; }
@@ -183,14 +183,14 @@ namespace InteractiveCharacterSheet
             GoverningAbilityScore = governingAbilityScore;
             AppliesArmorCheckPenalty = appliesArmorCheckPenalty;
             IsCraftSkill = isCraftSkill;
-            SkillModifiers = new List<SkillModification>();
+            SkillModifiers = new LinkedList<SkillModification>();
         }
 
         public Error AddModification(SkillModification modification)
         {
             if (modification.SkillName == SkillName)
             {
-                SkillModifiers.Add(modification);
+                SkillModifiers.AddLast(modification);
                 return new Error();
             }
             else
@@ -258,25 +258,25 @@ namespace InteractiveCharacterSheet
         private AttributeName _attributeName;
         private AbilityScoreName _governingAbilityScore;
         private int _baseAttributeValue = 0;
-        private List<AttributeModification> _attributeModifiers;
+        private LinkedList<AttributeModification> _attributeModifiers;
         private int _attributeValue = 0;
 
         public int BaseAttributeValue { get => _baseAttributeValue; set => _baseAttributeValue = value; }
         public int AttributeValue { get => _attributeValue; set => _attributeValue = value; }
         internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
         internal AbilityScoreName GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
-        internal List<AttributeModification> AttributeModifiers { get => _attributeModifiers; set => _attributeModifiers = value; }
+        internal LinkedList<AttributeModification> AttributeModifiers { get => _attributeModifiers; set => _attributeModifiers = value; }
 
         public CharacterAttribute()
         {
-            AttributeModifiers = new List<AttributeModification>();
+            AttributeModifiers = new LinkedList<AttributeModification>();
         }
 
         public Error AddModification(AttributeModification modification)
         {
             if (modification.AttributeName == AttributeName)
             {
-                AttributeModifiers.Add(modification);
+                AttributeModifiers.AddLast(modification);
                 return new Error();
             }
             else

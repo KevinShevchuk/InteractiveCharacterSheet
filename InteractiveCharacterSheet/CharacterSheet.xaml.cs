@@ -72,7 +72,7 @@ namespace InteractiveCharacterSheet
             if (inputUrl != null)
             {
                 CharSheetPresenter.LoadCharacterSheet(inputUrl);
-                if (CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
+                if (CharSheetPresenter.CharSheetData.Error != null && CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
                 {
                     MessageBox.Show(CharSheetPresenter.CharSheetData.Error.ErrorMessage, "Error", MessageBoxButton.OK);
                 }

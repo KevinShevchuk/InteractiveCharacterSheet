@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace InteractiveCharacterSheet
         private CharacterAbilityScore _intelligence = new CharacterAbilityScore();
         private CharacterAbilityScore _wisdom = new CharacterAbilityScore();
         private CharacterAbilityScore _charisma = new CharacterAbilityScore();
-        private List<CharacterSkill> _skills;
+        private ObservableCollection<CharacterSkill> _skills;
 
         public Error Error;
 
@@ -53,7 +54,7 @@ namespace InteractiveCharacterSheet
         internal CharacterAbilityScore Intelligence { get => _intelligence; set => _intelligence = value; }
         internal CharacterAbilityScore Wisdom { get => _wisdom; set => _wisdom = value; }
         internal CharacterAbilityScore Charisma { get => _charisma; set => _charisma = value; }
-        public List<CharacterSkill> Skills { get => _skills; set => _skills = value; }
+        public ObservableCollection<CharacterSkill> Skills { get => _skills; set => _skills = value; }
 
         public CharacterSheetData()
         {

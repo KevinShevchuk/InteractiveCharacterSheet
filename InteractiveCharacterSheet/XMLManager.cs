@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Documents;
 using System.Xml;
@@ -94,9 +95,9 @@ namespace InteractiveCharacterSheet
             return csd;
         }
 
-        public List<CharacterSkill> LoadSkills()
+        public ObservableCollection<CharacterSkill> LoadSkills()
         {
-            List<CharacterSkill> skills = new List<CharacterSkill>();
+            ObservableCollection<CharacterSkill> skills = new ObservableCollection<CharacterSkill>();
             try
             {
                 using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))

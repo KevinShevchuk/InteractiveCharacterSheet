@@ -35,6 +35,27 @@
                 <Button Name="SaveCharacterSheetButton" Content="Save Character Sheet" Grid.Column="8" HorizontalAlignment="Left" Margin="215,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="139" Click="SaveCharacterSheetButton_Click"/>
                 <Button Name="LoadCharacterSheetButton" Content="Load Character Sheet" Grid.Column="8" HorizontalAlignment="Left" Margin="215,48,0,0" Grid.Row="1" VerticalAlignment="Top" Width="139" Click="LoadCharacterSheetButton_Click"/>
             </Grid>
+            <Grid Name="DescriptionGrid" Background="#FFE5E5E5" DockPanel.Dock="Bottom" Height="180">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="SelectedDescription" Content="Description:" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1" Grid.Column="1" Width="123" Height="26"/>
+                <RichTextBox Name="DescriptionTextBox" Margin="5,5,5,5" Grid.Row="2" Grid.Column="1">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Grid>
             <TabControl Name="CharacterSheetTabControl" TabStripPlacement="Left">
                 <TabItem Name="CharacterTab" Header="Character">
                     <ScrollViewer Name="CharacterScrollViewer" Margin="0,0,0,0">
@@ -124,7 +145,9 @@
                 <TabItem Name="SkillsTab" Header="Skills">
                     <ScrollViewer Name="SkillsScrollViewer" Margin="0,0,0,0">
                         <Grid Name="SkillsGrid" Background="#FFE5E5E5">
+                            <DataGrid Name="SkillsDataGrid" Margin="5,5,5,5" ItemsSource="{Binding Source=CharSheetPresenter, Path=CharSheetData.Skills}">
 
+                            </DataGrid>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>

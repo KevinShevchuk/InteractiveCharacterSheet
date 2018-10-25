@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace InteractiveCharacterSheet
         private XMLManager XManager;
         public List<string> Alignments;
         public List<string> Genders;
-        public List<CharacterSkill> Skills;
+        public ObservableCollection<CharacterSkill> Skills;
 
         public DataCache()
         {
