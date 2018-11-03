@@ -18,8 +18,7 @@ namespace InteractiveCharacterSheet
         {
             InitializeComponent();
 
-            CharSheetPresenter = new CharacterSheetPresenter();
-            InitializeControls();
+            NewCharacterSheet(null, null);
         }
 
         internal CharacterSheetPresenter CharSheetPresenter;
@@ -27,7 +26,13 @@ namespace InteractiveCharacterSheet
 
         #region "Menu Options"
 
-        private void SaveCharacterSheetButton_Click(object sender, RoutedEventArgs e)
+        private void NewCharacterSheet(object sender, RoutedEventArgs e)
+        {
+            CharSheetPresenter = new CharacterSheetPresenter();
+            InitializeControls();
+        }
+
+        private void SaveCharacterSheet(object sender, RoutedEventArgs e)
         {
             string inputUrl = null;
 
@@ -54,7 +59,7 @@ namespace InteractiveCharacterSheet
             }
         }
 
-        private void LoadCharacterSheetButton_Click(object sender, RoutedEventArgs e)
+        private void OpenCharacterSheet(object sender, RoutedEventArgs e)
         {
             string inputUrl = null;
 
@@ -89,6 +94,11 @@ namespace InteractiveCharacterSheet
             }
         }
 
+        private void ExitApplication(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         private void SaveBiography()
         {
             CharSheetPresenter.CharSheetData.Biography.Clear();
@@ -114,6 +124,7 @@ namespace InteractiveCharacterSheet
             AlignmentComboBox.ItemsSource = CharSheetPresenter.DCache.Alignments;
             GenderComboBox.ItemsSource = CharSheetPresenter.DCache.Genders;
             RaceDescriptionText.IsReadOnly = true;
+            LoadCharacterControls();
         }
 
         #endregion
