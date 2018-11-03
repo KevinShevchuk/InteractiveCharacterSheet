@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:InteractiveCharacterSheet"
+        xmlns:model="clr-namespace:InteractiveCharacterSheet"
         mc:Ignorable="d"
         Title="Pathfinder Interactive Character Sheet" Height="700" Width="1300">
+    <Window.Resources>
+        <model:CharacterSkill x:Key="s" ></model:CharacterSkill>
+    </Window.Resources>
     <Grid>
         <DockPanel Name="CharacterSheetDockPanel">
             <Menu DockPanel.Dock="Top" Height="26" Margin="0,0,0,0" VerticalAlignment="Top">
@@ -151,8 +154,14 @@
                 <TabItem Name="SkillsTab" Header="Skills">
                     <ScrollViewer Name="SkillsScrollViewer" Margin="0,0,0,0">
                         <Grid Name="SkillsGrid" Background="#FFE5E5E5">
-                            <DataGrid Name="SkillsDataGrid" Margin="5,5,5,5" ItemsSource="{Binding Source=CharSheetPresenter, Path=CharSheetData.Skills}">
-
+                            <DataGrid Name="SkillsDataGrid" Margin="5,5,5,5" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="SkillsDataGrid_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.CharSheetData.Skills}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Skill Name" IsReadOnly="True" Binding="{Binding SkillDisplayName}"/>
+                                    <DataGridTextColumn Header="Total Level" IsReadOnly="True" Binding="{Binding CalculatedValue}"/>
+                                    <Controls:DataGridNumericUpDownColumn Header="Trained Level" Binding="{Binding BaseSkillValue, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridCheckBoxColumn Header="Class Skill" IsReadOnly="True" Binding="{Binding IsClassSkill}"/>
+                                    <DataGridCheckBoxColumn Header="Armor Check Penalty" IsReadOnly="True" Binding="{Binding AppliesArmorCheckPenalty}"/>
+                                </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
                     </ScrollViewer>

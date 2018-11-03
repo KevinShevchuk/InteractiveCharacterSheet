@@ -58,7 +58,7 @@ namespace InteractiveCharacterSheet
 
         public CharacterSheetData()
         {
-            
+
         }
 
         public class CharacterAttributes

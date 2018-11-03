@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Documents;
 
 namespace InteractiveCharacterSheet
@@ -7,7 +8,7 @@ namespace InteractiveCharacterSheet
         1.  validation purposes for XML importing. if the imported name does not exist in the enum it isn't a valid addition.
         2.  Named indices to the various lists if applicable.
      */
-    #region "AbilityScores"
+    #region AbilityScores
     
     enum AbilityScoreName
     {
@@ -78,7 +79,7 @@ namespace InteractiveCharacterSheet
 
     #endregion
 
-    #region "Skills"
+    #region Skills
 
     enum SkillName
     {
@@ -139,13 +140,14 @@ namespace InteractiveCharacterSheet
         UseMagicDevice,
     }
 
-    class CharacterSkill
+    class CharacterSkill : INotifyPropertyChanged
     {
         private SkillName _skillName;
-        private string _skillDisplayName; 
+        private string _skillDisplayName;
         private AbilityScoreName _governingAbilityScore;
         private bool appliesArmorCheckPenalty;
         private int _baseSkillValue = 0;
+        private int _calculatedValue = 0;
         private List<Paragraph> _description = new List<Paragraph>();
         private LinkedList<SkillModification> _skillModifiers;
         private bool _isClassSkill = false;
@@ -153,11 +155,27 @@ namespace InteractiveCharacterSheet
         private bool _isProfession = false;
         private bool _hasTools = false;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         internal SkillName SkillName { get => _skillName; set => _skillName = value; }
         public string SkillDisplayName { get => _skillDisplayName; set => _skillDisplayName = value; }
         public AbilityScoreName GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
         public bool AppliesArmorCheckPenalty { get => appliesArmorCheckPenalty; set => appliesArmorCheckPenalty = value; }
-        public int BaseSkillValue { get => _baseSkillValue; set => _baseSkillValue = value; }
+        public int BaseSkillValue
+        {
+            get => _baseSkillValue;
+            set
+            {
+                _baseSkillValue = value;
+                NotifyPropertyChanged("BaseSkillValue");
+            }
+        }
+        public int CalculatedValue { get => _calculatedValue; set => _calculatedValue = value; }
         public List<Paragraph> Description { get => _description; set => _description = value; }
         internal LinkedList<SkillModification> SkillModifiers { get => _skillModifiers; set => _skillModifiers = value; }
         public bool IsClassSkill { get => _isClassSkill; set => _isClassSkill = value; }
@@ -226,7 +244,7 @@ namespace InteractiveCharacterSheet
 
     #endregion
 
-    #region "Attributes"
+    #region Attributes
 
     enum AttributeName
     {
@@ -309,6 +327,10 @@ namespace InteractiveCharacterSheet
         public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
     }
+
+    #endregion
+
+    #region Feats
 
     #endregion
 

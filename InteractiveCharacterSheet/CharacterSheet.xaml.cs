@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace InteractiveCharacterSheet
 {
@@ -29,6 +30,7 @@ namespace InteractiveCharacterSheet
         private void NewCharacterSheet(object sender, RoutedEventArgs e)
         {
             CharSheetPresenter = new CharacterSheetPresenter();
+            CharSheetPresenter.LoadEmptyCharacterSheet();
             InitializeControls();
         }
 
@@ -117,6 +119,7 @@ namespace InteractiveCharacterSheet
         {
 
             InitializeCharacterControls();
+            LoadSkillsDataGrid();
         }
 
         private void InitializeCharacterControls()
@@ -148,6 +151,11 @@ namespace InteractiveCharacterSheet
             LanguagesTextBox.Text = CharSheetPresenter.CharSheetData.Languages;
             BiographyText.Document.Blocks.Clear();
             BiographyText.Document.Blocks.AddRange(CharSheetPresenter.CharSheetData.Biography);
+        }
+
+        private void LoadSkillsDataGrid()
+        {
+            SkillsDataGrid.ItemsSource = CharSheetPresenter.CharSheetData.Skills;
         }
 
         private void CharacterNameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -254,7 +262,13 @@ namespace InteractiveCharacterSheet
             }
         }
 
-        #endregion
+        private void SkillsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CharacterSkill cs = (CharacterSkill)SkillsDataGrid.SelectedItem; //Datagrid bound with ProductItem
+            DescriptionTextBox.Document.Blocks.Clear();
+            DescriptionTextBox.Document.Blocks.AddRange(cs.Description);
+        }
 
+        #endregion
     }
 }

@@ -151,7 +151,7 @@ namespace InteractiveCharacterSheet
         {
             List<Paragraph> paragraphs = new List<Paragraph>();
             
-            string[] lines = text.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new string[] { "\\r", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
                 Paragraph paragraph = new Paragraph();
