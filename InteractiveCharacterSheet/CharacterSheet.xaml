@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:model="clr-namespace:InteractiveCharacterSheet"
         mc:Ignorable="d"
-        Title="Pathfinder Interactive Character Sheet" Height="700" Width="1300">
+        Title="Pathfinder Interactive Character Sheet" Height="800" Width="1400">
     <Window.Resources>
         <model:CharacterSkill x:Key="s" ></model:CharacterSkill>
     </Window.Resources>
@@ -44,7 +44,7 @@
                 <Label Name="SlashLabel" Content="/" Grid.Column="5" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Bottom" Height="39" FontSize="20"/>
                 <TextBox Name="CurrentHitPoints" Grid.Column="4" Height="31" Margin="42,0,5,5" Grid.Row="1" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" FontSize="18"/>
             </Grid>
-            <Grid Name="DescriptionGrid" Background="#FFE5E5E5" DockPanel.Dock="Bottom" Height="180">
+            <Grid Name="DescriptionGrid" Background="#FFE5E5E5" DockPanel.Dock="Bottom" Height="220">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="26"/>

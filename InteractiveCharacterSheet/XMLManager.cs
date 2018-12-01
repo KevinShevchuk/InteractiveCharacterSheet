@@ -114,7 +114,7 @@ namespace InteractiveCharacterSheet
                             skill.SkillName = sn;
 
                             reader.ReadToFollowing("DisplayName");
-                            skill.SkillDisplayName = reader.GetAttribute("displayname");
+                            skill.SkillDisplayName = reader.ReadElementContentAsString();
 
                             reader.ReadToFollowing("GoverningAbilityScore");
                             Enum.TryParse<AbilityScoreName>(reader.ReadElementContentAsString(), out AbilityScoreName an);
@@ -123,6 +123,9 @@ namespace InteractiveCharacterSheet
                             reader.ReadToFollowing("AppliesArmorCheckPenalty");
                             skill.AppliesArmorCheckPenalty = reader.ReadElementContentAsBoolean();
 
+                            reader.ReadToFollowing("TrainedOnly");
+                            skill.TrainedOnly = reader.ReadElementContentAsBoolean();
+
                             reader.ReadToFollowing("IsCraftSkill");
                             skill.IsCraftSkill = reader.ReadElementContentAsBoolean();
 
@@ -130,7 +133,7 @@ namespace InteractiveCharacterSheet
                             skill.IsProfession = reader.ReadElementContentAsBoolean();
 
                             reader.ReadToFollowing("Description");
-                            skill.Description = TextToParagraphs(reader.GetAttribute("description"));
+                            skill.Description = TextBlocktoParagraphs(reader.ReadSubtree());
 
                             skills.Add(skill);
                         }
@@ -146,6 +149,21 @@ namespace InteractiveCharacterSheet
         }
 
         #region "Support Functions"
+
+        private List<Paragraph> TextBlocktoParagraphs(XmlReader inner)
+        {
+            List<Paragraph> paragraphs = new List<Paragraph>();
+
+            inner.ReadToFollowing("p");
+            while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "p"))
+            {
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run() { Text = inner.ReadElementContentAsString() });
+                paragraphs.Add(paragraph);
+                inner.Read();
+            }
+            return paragraphs;
+        }
 
         private List<Paragraph> TextToParagraphs(string text)
         {

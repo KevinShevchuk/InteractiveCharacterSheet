@@ -150,6 +150,7 @@ namespace InteractiveCharacterSheet
         private int _calculatedValue = 0;
         private List<Paragraph> _description = new List<Paragraph>();
         private LinkedList<SkillModification> _skillModifiers;
+        private bool _trainedOnly = false;
         private bool _isClassSkill = false;
         private bool _isCraftSkill = false;
         private bool _isProfession = false;
@@ -166,6 +167,7 @@ namespace InteractiveCharacterSheet
         public string SkillDisplayName { get => _skillDisplayName; set => _skillDisplayName = value; }
         public AbilityScoreName GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
         public bool AppliesArmorCheckPenalty { get => appliesArmorCheckPenalty; set => appliesArmorCheckPenalty = value; }
+        public bool TrainedOnly { get => _trainedOnly; set => _trainedOnly = value; }
         public int BaseSkillValue
         {
             get => _baseSkillValue;
