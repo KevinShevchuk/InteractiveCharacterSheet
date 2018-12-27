@@ -66,17 +66,6 @@ namespace InteractiveCharacterSheet
         }
     }
 
-    class AbilityScoreModification
-    {
-        private string _modificationSource;
-        private AbilityScoreName _abilityScore;
-        private int _scoreValue;
-
-        public int ScoreValue { get => _scoreValue; set => _scoreValue = value; }
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
-        internal AbilityScoreName AbilityScore { get => _abilityScore; set => _abilityScore = value; }
-    }
-
     #endregion
 
     #region Skills
@@ -262,17 +251,6 @@ namespace InteractiveCharacterSheet
         }
     }
 
-    class SkillModification
-    {
-        private string _modificationSource;
-        private SkillName _skillName;
-        private int _skillValue;
-
-        public int SkillValue { get => _skillValue; set => _skillValue = value; }
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
-        internal SkillName SkillName { get => _skillName; set => _skillName = value; }
-    }
-
     #endregion
 
     #region Attributes
@@ -300,6 +278,14 @@ namespace InteractiveCharacterSheet
         FlySpeed,
         SwimSpeed,
         ClimbSpeed,
+        FireResistance,
+        ColdResistance,
+        AcidResistance,
+        ElectricityResistance,
+        SonicResistance,
+        ForceResistance,
+        EnergyResistance,
+        MentalResistance
     }
 
     class CharacterAttribute
@@ -346,17 +332,6 @@ namespace InteractiveCharacterSheet
                 return new Error("Attempt to remove " + modification.AttributeName + " modification from " + modification.ModificationSource + " to attribute " + AttributeName + " failed. Attribute name mismatch.");
             }
         }
-    }
-
-    class AttributeModification
-    {
-        private string _modificationSource;
-        private AttributeName _attributeName;
-        private int _attributeValue;
-
-        public int AttributeValue { get => _attributeValue; set => _attributeValue = value; }
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
-        internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
     }
 
     #endregion
@@ -409,6 +384,71 @@ namespace InteractiveCharacterSheet
         internal List<SkillModification> SkillModifications { get => _skillModifications; set => _skillModifications = value; }
         internal List<AbilityScoreModification> AbilityScoreModifications { get => _abilityScoreModifications; set => _abilityScoreModifications = value; }
     }
+
+    #region Modifications
+    abstract class CharacterModification
+    {
+        public enum ModificationType
+        {
+            Addition,
+            Subtraction,
+            Multiplication,
+            Division
+        }
+
+        private ModificationType _action;
+        private double _modificationValue;
+
+        internal ModificationType Action { get => _action; set => _action = value; }
+        public double ModificationValue { get => _modificationValue; set => _modificationValue = value; }
+    }
+
+    class SkillModification : CharacterModification
+    {
+        private string _modificationSource;
+        private SkillName _skillName;
+        private int _skillValue;
+
+        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
+        internal SkillName SkillName { get => _skillName; set => _skillName = value; }
+
+        public SkillModification()
+        {
+
+        }
+    }
+
+    class AbilityScoreModification : CharacterModification
+    {
+        private string _modificationSource;
+        private AbilityScoreName _abilityScore;
+        private int _scoreValue;
+
+        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
+        internal AbilityScoreName AbilityScore { get => _abilityScore; set => _abilityScore = value; }
+
+        public AbilityScoreModification()
+        {
+
+        }
+    }
+
+    class AttributeModification : CharacterModification
+    {
+        private string _modificationSource;
+        private AttributeName _attributeName;
+        private int _attributeValue;
+
+        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
+        internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
+
+        public AttributeModification()
+        {
+
+        }
+    }
+
+    #endregion
 
     #region "Internal Classes"
 
