@@ -285,7 +285,8 @@ namespace InteractiveCharacterSheet
         SonicResistance,
         ForceResistance,
         EnergyResistance,
-        MentalResistance
+        MentalResistance,
+        SneakAttackDamage
     }
 
     class CharacterAttribute
@@ -340,6 +341,100 @@ namespace InteractiveCharacterSheet
 
     #endregion
 
+    #region Classes
+
+    public enum HitDice
+    {
+        d4,
+        d6,
+        d8,
+        d10,
+        d12
+    }
+
+    class CharacterClass
+    {
+        private string _className;
+        private string _classDisplayName;
+        private HitDice _hitDicePerLevel;
+        private List<CharacterSkill> _classSkills;
+        private int _skillRanksPerLevel;
+    }
+
+    class ClassFeature
+    {
+        private string _featureName;
+        private string _featureDisplayName;
+        private bool hasLimitedUses;
+        private int _usesPerDay;
+        private List<Paragraph> _description;
+    }
+
+    class ClassLevel
+    {
+        private int _level;
+        private int _baseAttackBonus;
+        private int _fortitudeSave;
+        private int _reflexSave;
+        private int _willSave;
+        private List<ClassFeature> _special;
+        private int _l1Spells;
+        private int _l2Spells;
+        private int _l3Spells;
+        private int _l4Spells;
+        private int _l5Spells;
+        private int _l6Spells;
+        private int _l7Spells;
+        private int _l8Spells;
+        private int _l9Spells;
+    }
+
+    #endregion
+
+    #region Races
+
+    class Race
+    {
+        private string _raceName;
+        private string _raceDisplayName;
+        private RaceSubType _subType;
+        private Bloodline bloodline;
+        private List<FavoredClass> _activeFavoredClassBonuses;
+    }
+
+    class RaceSubType
+    {
+        private string _subTypeName;
+        private string _subtypeDisplayName;
+    }
+
+    class FavoredClass
+    {
+        private CharacterClass _characterClass;
+        private LevelTable _levelTable;
+    }
+
+    class Bloodline
+    {
+        private string _bloodlineName;
+        private string _bloodlineDisplayName;
+    }
+
+    class RacialTrait
+    {
+        private string _traitName;
+        private string _traitDisplayName;
+        private string _traitDescription;
+        private List<CharacterModification> _modifications;
+
+        public string TraitName { get => _traitName; set => _traitName = value; }
+        public string TraitDescription { get => _traitDescription; set => _traitDescription = value; }
+        public string TraitDisplayName { get => _traitDisplayName; set => _traitDisplayName = value; }
+        internal List<CharacterModification> Modifications { get => _modifications; set => _modifications = value; }
+    }
+
+    #endregion
+
     class CharacterSize
     {
         private readonly string _size;
@@ -370,22 +465,8 @@ namespace InteractiveCharacterSheet
         }   
     }
 
-    class RacialTrait
-    {
-        private string _traitName;
-        private string _traitDescription;
-        private List<AttributeModification> _attributeModifications;
-        private List<SkillModification> _skillModifications;
-        private List<AbilityScoreModification> _abilityScoreModifications;
-
-        public string TraitName { get => _traitName; set => _traitName = value; }
-        public string TraitDescription { get => _traitDescription; set => _traitDescription = value; }
-        internal List<AttributeModification> AttributeModifications { get => _attributeModifications; set => _attributeModifications = value; }
-        internal List<SkillModification> SkillModifications { get => _skillModifications; set => _skillModifications = value; }
-        internal List<AbilityScoreModification> AbilityScoreModifications { get => _abilityScoreModifications; set => _abilityScoreModifications = value; }
-    }
-
     #region Modifications
+
     abstract class CharacterModification
     {
         public enum ModificationType
@@ -450,7 +531,17 @@ namespace InteractiveCharacterSheet
 
     #endregion
 
-    #region "Internal Classes"
+    #region Support Classes
+
+    class LevelTable
+    {
+        private int _level;
+        private List<CharacterModification> _modifications;
+    }
+
+    #endregion
+
+    #region Internal Classes
 
     class Error
     {

@@ -109,9 +109,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XMLDataSheets\Skills\Skills.xml" />
+    <Resource Include="XMLDataSheets\Skills\Skills.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="XMLDataSheets\Feats\" />
     <Folder Include="XMLDataSheets\Races\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
