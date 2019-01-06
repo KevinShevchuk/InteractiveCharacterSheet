@@ -115,7 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XMLDataSheets\Feats\" />
-    <Folder Include="XMLDataSheets\Races\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLDataSheets\Races\Human.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLDataSheets\XMLPropertyReferenceGuide.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

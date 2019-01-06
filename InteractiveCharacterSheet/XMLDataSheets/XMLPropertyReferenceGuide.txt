@@ -1,0 +1,236 @@
+﻿This is a descriptor of the different properties in the XML files and the options available to them.
+
+==========Races==========
+-----Name-----
+	The internal name of the race.
+
+-----DisplayName-----
+	A formatted name of the race used for display. Can have spaces and symbols in it.
+
+-----Size-----
+	The standard size of the race. the value must match the size name in the Size list.
+
+	Available Values:
+		
+
+-----BaseSpeed-----
+	The base movement speed of the race.
+
+	Available Values:
+		Integer.
+
+-----BaseSwimSpeed-----
+	Optional. Some races do not have a listed base swim speed.
+
+	Available Values:
+		Integer.
+
+-----BaseFlySpeed-----
+	Optional. Some races do not have a listed base fly speed.
+
+	Available Values:
+		Integer.
+
+-----RacialTraits-----
+	See: Trait
+
+-----Description-----
+	A long text description of the skill. 
+	Wrap new paragraphs in a <p><p/> tag. 
+	These translate to new text blocks in the description.
+
+==========Trait==========
+-----Name-----
+	The internal name of the trait. Must be unique. Cannot contain spaces or symbols. Prefix the race name if it is an identical trait to another trait of a different race.
+
+-----DisplayName-----
+	A formatted name of the trait used for display. Can have spaces and symbols in it.
+
+-----Modifications-----
+	See: Modification
+
+==========Modification==========
+-----Type-----
+	What set of properties on the character the Modification is applied to.
+
+	Available Values:
+		AbilityScore
+		Attribute
+		Skill
+		Size
+
+-----Mode-----
+	Optional
+
+	Specifies whether the modification has special rules
+
+	Available Values:
+		PlayerChoice
+
+==========LevelTable==========
+	This property uses XML attributes for human readability. Rows have a <t> tag.
+
+-----Level-----
+	The level the value applies to.
+
+	Available values:
+		1-20.
+-----Property-----
+	the character property to apply the modification to. Must be a member of whatever is specified for the Type property.
+
+-----Action-----
+	The mathematical operation to perform on that property.
+
+	Available Values:
+		Add
+		Subtract
+		Multiply
+		Divide
+
+-----ValueType-----
+	What type of value we are modifying. use the Dice type if adding a polyhedral dice to the value. Dice type is only used when a trait or feat adds a dice to a roll.
+
+	Available Values:
+		Numeric,
+		Dice.
+
+----Value-----
+	the value to perform the action.
+
+	Available Values:
+		Integer (if Numeric for ValueType.),
+		d4 (If Dice for ValueType),
+		d6 (If Dice for ValueType),
+		d8 (If Dice for ValueType),
+		d10 (If Dice for ValueType),
+		d12 (If Dice for ValueType).
+
+==========Skills==========
+-----Name-----
+	The internal name of the skill in the SkillNames enumeration. Must be in the enumeration. Cannot have spaces or symbols. 
+	Available values:
+		Acrobatics,
+		Appraise,
+		Bluff,
+		Climb,
+		CraftAlchemy,
+		CraftArmor,
+		CraftBaskets,
+		CraftBooks,
+		CraftBows,
+		CraftCalligraphy,
+		CraftCarpentry,
+		CraftCloth,
+		CraftClothing,
+		CraftGlass,
+		CraftJewelry,
+		CraftLeather,
+		CraftLocks,
+		CraftPaintings,
+		CraftPottery,
+		CraftScupltures,
+		CraftShips,
+		CraftShoes,
+		CraftStonemasonry,
+		CraftTraps,
+		CraftWeapons,
+		Diplomacy,
+		DisableDevice,
+		Disguise,
+		EscapeArtist,
+		Fly,
+		HandleAnimal,
+		Heal,
+		Intimidate,
+		KnowledgeArcana,
+		KnowledgeDungeoneering,
+		KnowledgeEngineering,
+		KnowledgeGeography,
+		KnowledgeHistory,
+		KnowledgeLocal,
+		KnowledgeNature,
+		KnowledgeNobility,
+		KnowledgePlanes,
+		KnowledgeReligion,
+		Lingusitics,
+		Perception,
+		Perform,
+		ProfessionArchitect,
+		ProfessionBaker,
+		ProfessionBarrister,
+		ProfessionBrewer,
+		ProfessionButcher,
+		ProfessionClerk,
+		ProfessionCook,
+		ProfessionCourtesan,
+		ProfessionDriver,
+		ProfessionEngineer,
+		ProfessionFarmer,
+		ProfessionFisherman,
+		ProfessionGambler,
+		ProfessionGardener,
+		ProfessionHerbalist,
+		ProfessionInnkeeper,
+		ProfessionLibrarian,
+		ProfessionMerchant,
+		ProfessionMidwife,
+		ProfessionMiller,
+		ProfessionMiner,
+		ProfessionPorter,
+		ProfessionSailor,
+		ProfessionScribe,
+		ProfessionShepherd,
+		ProfessionStableMaster,
+		ProfessionSoldier,
+		ProfessionTanner,
+		ProfessionTrapper,
+		ProfessionWoodcutter,
+		Ride,
+		SenseMotive,
+		SleightOfHand,
+		Spellcraft,
+		Stealth,
+		Survival,
+		Swim,
+		UseMagicDevice.
+
+-----DisplayName-----
+	A formatted name of the skill used for display. Can have spaces and symbols in it.
+
+-----GoverningAbilityScore-----
+	Ability score that affects the calculation of the skill value. Must be a member of the AbilityScores enumeration.
+
+	Available values:
+		Constitution,
+		Dexterity,
+		Strength,
+		Intelligence,
+		Wisdom,
+		Charisma.
+
+-----AppliesArmorCheckPenalty-----
+	Whether the Attribute ArmorPenalty is applied to the skill for skill checks. Generally only physical skills have this set.
+	
+	Available Values:
+		0 or 1.
+
+-----TrainedOnly-----
+	Whether the skill can only have points put into it if it is a trained skill from a class.
+
+	Available Values:
+		0 or 1.
+
+-----IsCraftSkill-----
+	Whether the skill is a craft skill.
+
+	Available Values:
+		0 or 1.
+
+-----IsProfession-----
+	Whether the skill is a profession skill.
+
+	Available Values:
+		0 or 1.
+
+-----Description-----
+	A long text description of the skill. Wrap new paragraphs in a <p><p/> tag. These translate to new text blocks in the description.

@@ -286,7 +286,10 @@ namespace InteractiveCharacterSheet
         ForceResistance,
         EnergyResistance,
         MentalResistance,
-        SneakAttackDamage
+        SneakAttackDamage,
+        FeatCount,
+        SkillPointCount,
+        SkillPointsPerLevel
     }
 
     class CharacterAttribute
