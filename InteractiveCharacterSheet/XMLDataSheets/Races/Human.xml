@@ -23,7 +23,7 @@
     <p>-----Adventurers-----</p>
     <p>Ambition alone drives countless humans, and for many, adventuring serves as a means to an end, whether it be wealth, acclaim, social status, or arcane knowledge. A few pursue adventuring careers simply for the thrill of danger. Humans hail from myriad regions and backgrounds, and as such can fill any role within an adventuring party.</p>
   </Description>
-  <RacialTraits>
+  <!--<RacialTraits>
     <Trait>
       <Name>HumanAbilityScoreModifiers</Name>
       <DisplayName>Human: Ability Score Modifiers</DisplayName>
@@ -76,5 +76,5 @@
         </Modification>
       </Modifications>
     </Trait>
-  </RacialTraits>
+  </RacialTraits>-->
 </Race>

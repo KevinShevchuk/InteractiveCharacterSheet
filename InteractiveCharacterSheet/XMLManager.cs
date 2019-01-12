@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Documents;
 using System.Xml;
@@ -146,6 +147,75 @@ namespace InteractiveCharacterSheet
             }
 
             return skills;
+        }
+
+        public HashSet<Race> LoadRaces()
+        {
+            HashSet<Race> races = new HashSet<Race>();
+            string[] filenames = Directory.GetFiles(_executableUrl + "\\XMLDataSheets\\Races\\");
+            for (int i = 0; i < filenames.Length; i++)
+            {
+                try
+                {
+                    using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Races\\" + filenames[i]))
+                    {
+                        reader.ReadToFollowing("Skills");
+                        while (reader.Read())
+                        {
+                            if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "Skill"))
+                            {
+                                Race race = new Race();
+
+                                reader.ReadToFollowing("Name");
+                                race.RaceName = reader.ReadElementContentAsString();
+
+                                reader.ReadToFollowing("DisplayName");
+                                race.RaceDisplayName = reader.ReadElementContentAsString();
+
+                                reader.ReadToFollowing("Size");
+                                race.Size = reader.ReadElementContentAsString();
+
+                                reader.ReadToFollowing("BaseSpeed");
+                                race.BaseSpeed = reader.ReadElementContentAsInt();
+
+                                reader.ReadToFollowing("BaseSwimSpeed");
+                                race.BaseSwimSpeed = reader.ReadElementContentAsInt();
+
+                                reader.ReadToFollowing("BaseFlySpeed");
+                                race.BaseFlySpeed = reader.ReadElementContentAsInt();
+
+                                reader.ReadToFollowing("Languages");
+                                race.Languages = LoadLanguages(reader.ReadSubtree());
+
+                                reader.ReadToFollowing("Description");
+                                race.Description = TextBlocktoParagraphs(reader.ReadSubtree());
+
+                                //reader.ReadToFollowing("RacialTraits");
+                                //race.Traits = LoadTraits();
+
+                                races.Add(race);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    new Error(ex.Message);
+                }
+            }
+            return races;
+        }
+
+        private string LoadLanguages(XmlReader inner)
+        {
+            string languages = "";
+
+            inner.ReadToFollowing("Language");
+            while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
+            {
+                languages += inner.ReadElementContentAsString() + ", ";
+            }
+            return languages.Substring(0, languages.Length - 2);
         }
 
         #region "Support Functions"

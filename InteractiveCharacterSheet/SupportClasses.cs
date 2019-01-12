@@ -400,27 +400,57 @@ namespace InteractiveCharacterSheet
     {
         private string _raceName;
         private string _raceDisplayName;
+        private string _size;
+        private int _baseSpeed;
+        private int _baseSwimSpeed;
+        private int _baseFlySpeed;
+        private string _languages;
         private RaceSubType _subType;
-        private Bloodline bloodline;
-        private List<FavoredClass> _activeFavoredClassBonuses;
+        private Bloodline _bloodline;
+        private List<RacialTrait> _traitList;
+        private List<FavoredClass> _favoredClassBonuses;
+        private List<Paragraph> _description;
+
+        public string RaceName { get => _raceName; set => _raceName = value; }
+        public string RaceDisplayName { get => _raceDisplayName; set => _raceDisplayName = value; }
+        public string Size { get => _size; set => _size = value; }
+        public int BaseSpeed { get => _baseSpeed; set => _baseSpeed = value; }
+        public int BaseSwimSpeed { get => _baseSwimSpeed; set => _baseSwimSpeed = value; }
+        public int BaseFlySpeed { get => _baseFlySpeed; set => _baseFlySpeed = value; }
+        public string Languages { get => _languages; set => _languages = value; }
+        internal RaceSubType SubType { get => _subType; set => _subType = value; }
+        internal Bloodline Bloodline { get => _bloodline; set => _bloodline = value; }
+        internal List<RacialTrait> TraitList { get => _traitList; set => _traitList = value; }
+        internal List<FavoredClass> FavoredClassBonuses { get => _favoredClassBonuses; set => _favoredClassBonuses = value; }
+        public List<Paragraph> Description { get => _description; set => _description = value; }
+        
     }
 
     class RaceSubType
     {
         private string _subTypeName;
         private string _subtypeDisplayName;
+
+        public string SubTypeName { get => _subTypeName; set => _subTypeName = value; }
+        public string SubtypeDisplayName { get => _subtypeDisplayName; set => _subtypeDisplayName = value; }
     }
 
     class FavoredClass
     {
         private CharacterClass _characterClass;
         private LevelTable _levelTable;
+
+        internal CharacterClass CharacterClass { get => _characterClass; set => _characterClass = value; }
+        internal LevelTable LevelTable { get => _levelTable; set => _levelTable = value; }
     }
 
     class Bloodline
     {
         private string _bloodlineName;
         private string _bloodlineDisplayName;
+
+        public string BloodlineName { get => _bloodlineName; set => _bloodlineName = value; }
+        public string BloodlineDisplayName { get => _bloodlineDisplayName; set => _bloodlineDisplayName = value; }
     }
 
     class RacialTrait
