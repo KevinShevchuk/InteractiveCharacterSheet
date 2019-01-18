@@ -455,14 +455,14 @@ namespace InteractiveCharacterSheet
 
     class RacialTrait
     {
-        private string _traitName;
-        private string _traitDisplayName;
-        private string _traitDescription;
+        private string _name;
+        private string _displayName;
+        private List<Paragraph> _description;
         private List<CharacterModification> _modifications;
 
-        public string TraitName { get => _traitName; set => _traitName = value; }
-        public string TraitDescription { get => _traitDescription; set => _traitDescription = value; }
-        public string TraitDisplayName { get => _traitDisplayName; set => _traitDisplayName = value; }
+        public string Name { get => _name; set => _name = value; }
+        public string DisplayName { get => _displayName; set => _displayName = value; }
+        public List<Paragraph> Description { get => _description; set => _description = value; }
         internal List<CharacterModification> Modifications { get => _modifications; set => _modifications = value; }
     }
 
@@ -502,7 +502,13 @@ namespace InteractiveCharacterSheet
 
     abstract class CharacterModification
     {
-        public enum ModificationType
+        public enum ValueType
+        {
+            Numeric,
+            Dice
+        }
+
+        public enum ModificationAction
         {
             Addition,
             Subtraction,
@@ -510,20 +516,20 @@ namespace InteractiveCharacterSheet
             Division
         }
 
-        private ModificationType _action;
+        private ModificationAction _action;
         private double _modificationValue;
+        private string _modificationSource;
 
-        internal ModificationType Action { get => _action; set => _action = value; }
+        internal ModificationAction Action { get => _action; set => _action = value; }
+        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         public double ModificationValue { get => _modificationValue; set => _modificationValue = value; }
     }
 
     class SkillModification : CharacterModification
     {
-        private string _modificationSource;
+        
         private SkillName _skillName;
-        private int _skillValue;
 
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         internal SkillName SkillName { get => _skillName; set => _skillName = value; }
 
         public SkillModification()
@@ -534,11 +540,8 @@ namespace InteractiveCharacterSheet
 
     class AbilityScoreModification : CharacterModification
     {
-        private string _modificationSource;
         private AbilityScoreName _abilityScore;
-        private int _scoreValue;
 
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         internal AbilityScoreName AbilityScore { get => _abilityScore; set => _abilityScore = value; }
 
         public AbilityScoreModification()
@@ -549,11 +552,8 @@ namespace InteractiveCharacterSheet
 
     class AttributeModification : CharacterModification
     {
-        private string _modificationSource;
         private AttributeName _attributeName;
-        private int _attributeValue;
 
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
 
         public AttributeModification()

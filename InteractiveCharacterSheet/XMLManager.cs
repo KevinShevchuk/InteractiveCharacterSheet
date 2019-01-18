@@ -103,47 +103,26 @@ namespace InteractiveCharacterSheet
             {
                 using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))
                 {
-                    reader.ReadToFollowing("Skills");
+                    reader.MoveToContent();
                     while (reader.Read())
                     {
-                        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "Skill"))
+                        if (reader.NodeType == XmlNodeType.Element)
                         {
-                            CharacterSkill skill = new CharacterSkill();
-
-                            reader.ReadToFollowing("Name");
-                            Enum.TryParse<SkillName>(reader.ReadElementContentAsString(), out SkillName sn);
-                            skill.SkillName = sn;
-
-                            reader.ReadToFollowing("DisplayName");
-                            skill.SkillDisplayName = reader.ReadElementContentAsString();
-
-                            reader.ReadToFollowing("GoverningAbilityScore");
-                            Enum.TryParse<AbilityScoreName>(reader.ReadElementContentAsString(), out AbilityScoreName an);
-                            skill.GoverningAbilityScore = an;
-
-                            reader.ReadToFollowing("AppliesArmorCheckPenalty");
-                            skill.AppliesArmorCheckPenalty = reader.ReadElementContentAsBoolean();
-
-                            reader.ReadToFollowing("TrainedOnly");
-                            skill.TrainedOnly = reader.ReadElementContentAsBoolean();
-
-                            reader.ReadToFollowing("IsCraftSkill");
-                            skill.IsCraftSkill = reader.ReadElementContentAsBoolean();
-
-                            reader.ReadToFollowing("IsProfession");
-                            skill.IsProfession = reader.ReadElementContentAsBoolean();
-
-                            reader.ReadToFollowing("Description");
-                            skill.Description = TextBlocktoParagraphs(reader.ReadSubtree());
-
-                            skills.Add(skill);
+                            if (reader.Name == "Skill")
+                            {
+                                XElement el = XNode.ReadFrom(reader) as XElement;
+                                if (el != null)
+                                {
+                                    skills.Add(LoadSkill(el));
+                                }
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                 new Error(ex.Message);
+                new Error(ex.Message);
             }
 
             return skills;
@@ -152,73 +131,207 @@ namespace InteractiveCharacterSheet
         public HashSet<Race> LoadRaces()
         {
             HashSet<Race> races = new HashSet<Race>();
-            string[] filenames = Directory.GetFiles(_executableUrl + "\\XMLDataSheets\\Races\\");
-            for (int i = 0; i < filenames.Length; i++)
+            try
             {
-                try
+                string[] filenames = Directory.GetFiles(_executableUrl + "\\XMLDataSheets\\Races\\");
+                for (int i = 0; i < filenames.Length; i++)
                 {
-                    using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Races\\" + filenames[i]))
+
+                    using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))
                     {
-                        reader.ReadToFollowing("Skills");
+                        reader.MoveToContent();
                         while (reader.Read())
                         {
-                            if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "Skill"))
+                            if (reader.NodeType == XmlNodeType.Element)
                             {
-                                Race race = new Race();
-
-                                reader.ReadToFollowing("Name");
-                                race.RaceName = reader.ReadElementContentAsString();
-
-                                reader.ReadToFollowing("DisplayName");
-                                race.RaceDisplayName = reader.ReadElementContentAsString();
-
-                                reader.ReadToFollowing("Size");
-                                race.Size = reader.ReadElementContentAsString();
-
-                                reader.ReadToFollowing("BaseSpeed");
-                                race.BaseSpeed = reader.ReadElementContentAsInt();
-
-                                reader.ReadToFollowing("BaseSwimSpeed");
-                                race.BaseSwimSpeed = reader.ReadElementContentAsInt();
-
-                                reader.ReadToFollowing("BaseFlySpeed");
-                                race.BaseFlySpeed = reader.ReadElementContentAsInt();
-
-                                reader.ReadToFollowing("Languages");
-                                race.Languages = LoadLanguages(reader.ReadSubtree());
-
-                                reader.ReadToFollowing("Description");
-                                race.Description = TextBlocktoParagraphs(reader.ReadSubtree());
-
-                                //reader.ReadToFollowing("RacialTraits");
-                                //race.Traits = LoadTraits();
-
-                                races.Add(race);
+                                if (reader.Name == "Race")
+                                {
+                                    XElement el = XNode.ReadFrom(reader) as XElement;
+                                    if (el != null)
+                                    {
+                                        races.Add(LoadRace(el));
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    new Error(ex.Message);
-                }
             }
+            catch (Exception ex)
+            {
+                new Error(ex.Message);
+            }
+
             return races;
         }
 
-        private string LoadLanguages(XmlReader inner)
-        {
-            string languages = "";
+        //private string LoadLanguages(XmlReader inner)
+        //{
+        //    string languages = "";
 
-            inner.ReadToFollowing("Language");
-            while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
-            {
-                languages += inner.ReadElementContentAsString() + ", ";
-            }
-            return languages.Substring(0, languages.Length - 2);
-        }
+        //    inner.ReadToFollowing("Language");
+        //    while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
+        //    {
+        //        languages += inner.ReadElementContentAsString() + ", ";
+        //    }
+        //    return languages.Substring(0, languages.Length - 2);
+        //}
 
         #region "Support Functions"
+
+        private CharacterSkill LoadSkill(XElement el)
+        {
+            CharacterSkill skill = new CharacterSkill();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                switch (xe.Name.LocalName)
+                {
+                    case "Name":
+                        Enum.TryParse(xe.Value, out SkillName sn);
+                        skill.SkillName = sn;
+                        break;
+                    case "DisplayName":
+                        skill.SkillDisplayName = (string)xe;
+                        break;
+                    case "GoverningAbilityScore":
+                        Enum.TryParse(xe.Value, out AbilityScoreName an);
+                        skill.GoverningAbilityScore = an;
+                        break;
+                    case "AppliesArmorCheckPenalty":
+                        skill.AppliesArmorCheckPenalty = (bool)xe;
+                        break;
+                    case "TrainedOnly":
+                        skill.TrainedOnly = (bool)xe;
+                        break;
+                    case "IsCraftSkill":
+                        skill.IsCraftSkill = (bool)xe;
+                        break;
+                    case "IsProfession":
+                        skill.IsProfession = (bool)xe;
+                        break;
+                    case "Description":
+                        skill.Description = TextBlocktoParagraphs(xe);
+                        break;
+                }
+            }
+            return skill;
+        }
+
+        private Race LoadRace(XElement el)
+        {
+            Race race = new Race();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                switch (xe.Name.LocalName)
+                {
+                    case "Name":
+                        race.RaceName = (string)xe;
+                        break;
+                    case "DisplayName":
+                        race.RaceDisplayName = (string)xe;
+                        break;
+                    case "Size":
+                        race.Size = (string)xe;
+                        break;
+                    case "BaseSpeed":
+                        race.BaseSpeed = (int)xe;
+                        break;
+                    case "BaseFlySpeed":
+                        race.BaseFlySpeed = (int)xe;
+                        break;
+                    case "BaseSwimSpeed":
+                        race.BaseSwimSpeed = (int)xe;
+                        break;
+                    case "Description":
+                        race.Description = TextBlocktoParagraphs(xe);
+                        break;
+                    case "RacialTraits":
+                        race.TraitList = LoadRacialTraits(xe);
+                        break;
+                }
+            }
+            return race;
+        }
+
+        private List<RacialTrait> LoadRacialTraits(XElement el)
+        {
+            List<RacialTrait> traits = new List<RacialTrait>();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                traits.Add(LoadRacialTrait(xe));
+            }
+            return traits;
+        }
+
+        private RacialTrait LoadRacialTrait(XElement el)
+        {
+            RacialTrait trait = new RacialTrait();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                switch (xe.Name.LocalName)
+                {
+                    case "Name":
+                        trait.Name = (string)xe;
+                        break;
+                    case "DisplayName":
+                        trait.DisplayName = (string)xe;
+                        break;
+                    case "Description":
+                        trait.Description = TextBlocktoParagraphs(xe);
+                        break;
+                    case "Modifications":
+                        trait.Modifications = LoadModifications(xe);
+                        break;
+                }
+            }
+            return trait;
+        }
+
+        private List<CharacterModification> LoadModifications(XElement el)
+        {
+            List<CharacterModification> mods = new List<CharacterModification>();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                mods.Add(LoadModification(xe));
+            }
+            return mods;
+        }
+
+        private CharacterModification LoadModification(XElement el)
+        {
+            XElement typeNode = el.Descendants("Type").First();
+            if (typeNode != null)
+            {
+                switch ((string)typeNode)
+                {
+                    case "AbilityScore":
+                        return LoadModification2(el, new AbilityScoreModification());
+                    case "Attribute":
+                        return LoadModification2(el, new AttributeModification());
+                    case "Skill":
+                        return LoadModification2(el, new SkillModification());
+                }
+            }
+            return null;
+        }
+
+        private CharacterModification LoadModification2(XElement el, CharacterModification mod)
+        {
+            IEnumerable<XElement> nodes = el.Descendants();
+            //foreach (XElement xe in nodes)
+            //{
+            //    switch (xe.Name.LocalName)
+            //    {
+
+            //    }
+            //}
+            return mod;
+        }
 
         private List<Paragraph> TextBlocktoParagraphs(XmlReader inner)
         {
@@ -231,6 +344,19 @@ namespace InteractiveCharacterSheet
                 paragraph.Inlines.Add(new Run() { Text = inner.ReadElementContentAsString() });
                 paragraphs.Add(paragraph);
                 inner.Read();
+            }
+            return paragraphs;
+        }
+
+        private List<Paragraph> TextBlocktoParagraphs(XElement textBlock)
+        {
+            List<Paragraph> paragraphs = new List<Paragraph>();
+            IEnumerable<XElement> nodes = textBlock.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run() { Text = xe.Value });
+                paragraphs.Add(paragraph);
             }
             return paragraphs;
         }

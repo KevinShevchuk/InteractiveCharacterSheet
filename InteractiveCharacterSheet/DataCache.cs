@@ -12,6 +12,7 @@ namespace InteractiveCharacterSheet
         private XMLManager XManager;
         public List<string> Alignments;
         public List<string> Genders;
+        public HashSet<Race> Races;
         public ObservableCollection<CharacterSkill> Skills;
 
         public DataCache()
@@ -20,6 +21,7 @@ namespace InteractiveCharacterSheet
             LoadAlignments();
             LoadGenders();
             LoadSkills();
+            LoadRaces();
         }
 
         private void LoadAlignments()
@@ -49,6 +51,11 @@ namespace InteractiveCharacterSheet
         private void LoadSkills()
         {
             this.Skills = XManager.LoadSkills();
+        }
+
+        private void LoadRaces()
+        {
+            this.Races = XManager.LoadRaces();
         }
     }
 }
