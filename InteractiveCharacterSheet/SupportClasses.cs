@@ -10,59 +10,31 @@ namespace InteractiveCharacterSheet
      */
     #region AbilityScores
     
-    enum AbilityScoreName
-    {
-        Constitution,
-        Dexterity,
-        Strength,
-        Intelligence,
-        Wisdom,
-        Charisma,
-    }
+    //enum AbilityScoreName
+    //{
+    //    Constitution,
+    //    Dexterity,
+    //    Strength,
+    //    Intelligence,
+    //    Wisdom,
+    //    Charisma,
+    //}
 
     class CharacterAbilityScore
     {
         private int _baseAbilityScoreValue = 0;
-        private List<AbilityScoreModification> _abilityScoreModification = new List<AbilityScoreModification>();
         private int _AbilityScore = 0;
         private int _modifier = 0;
-        private AbilityScoreName scoreName;
+        private string scoreName;
 
         public int BaseAbilityScoreValue { get => _baseAbilityScoreValue; set => _baseAbilityScoreValue = value; }
-        internal List<AbilityScoreModification> AbilityScoreModifiers { get => _abilityScoreModification; set => _abilityScoreModification = value; }
         public int AbilityScore { get => _AbilityScore; set => _AbilityScore = value; }
         public int Modifier { get => _modifier; set => _modifier = value; }
-        internal AbilityScoreName ScoreName { get => scoreName; set => scoreName = value; }
+        internal string ScoreName { get => scoreName; set => scoreName = value; }
 
         public CharacterAbilityScore()
         {
-            AbilityScoreModifiers = new List<AbilityScoreModification>();
-        }
 
-        public Error AddModification(AbilityScoreModification modification)
-        {
-            if(modification.AbilityScore == scoreName)
-            {
-                AbilityScoreModifiers.Add(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to add " + modification.AbilityScore + " modification from " + modification.ModificationSource + " to ability score " + scoreName + " failed. Ability score mismatch.");
-            }
-        }
-
-        public Error RemoveModification(AbilityScoreModification modification)
-        {
-            if (modification.AbilityScore == scoreName)
-            {
-                AbilityScoreModifiers.Remove(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to remove " + modification.AbilityScore + " modification from " + modification.ModificationSource + " to ability score " + scoreName + " failed. Ability score mismatch.");
-            }
         }
     }
 
@@ -70,104 +42,15 @@ namespace InteractiveCharacterSheet
 
     #region Skills
 
-    enum SkillName
-    {
-        Acrobatics,
-        Appraise,
-        Bluff,
-        Climb,
-        CraftAlchemy,
-        CraftArmor,
-        CraftBaskets,
-        CraftBooks,
-        CraftBows,
-        CraftCalligraphy,
-        CraftCarpentry,
-        CraftCloth,
-        CraftClothing,
-        CraftGlass,
-        CraftJewelry,
-        CraftLeather,
-        CraftLocks,
-        CraftPaintings,
-        CraftPottery,
-        CraftScupltures,
-        CraftShips,
-        CraftShoes,
-        CraftStonemasonry,
-        CraftTraps,
-        CraftWeapons,
-        Diplomacy,
-        DisableDevice,
-        Disguise,
-        EscapeArtist,
-        Fly,
-        HandleAnimal,
-        Heal,
-        Intimidate,
-        KnowledgeArcana,
-        KnowledgeDungeoneering,
-        KnowledgeEngineering,
-        KnowledgeGeography,
-        KnowledgeHistory,
-        KnowledgeLocal,
-        KnowledgeNature,
-        KnowledgeNobility,
-        KnowledgePlanes,
-        KnowledgeReligion,
-        Lingusitics,
-        Perception,
-        Perform,
-        ProfessionArchitect,
-        ProfessionBaker,
-        ProfessionBarrister,
-        ProfessionBrewer,
-        ProfessionButcher,
-        ProfessionClerk,
-        ProfessionCook,
-        ProfessionCourtesan,
-        ProfessionDriver,
-        ProfessionEngineer,
-        ProfessionFarmer,
-        ProfessionFisherman,
-        ProfessionGambler,
-        ProfessionGardener,
-        ProfessionHerbalist,
-        ProfessionInnkeeper,
-        ProfessionLibrarian,
-        ProfessionMerchant,
-        ProfessionMidwife,
-        ProfessionMiller,
-        ProfessionMiner,
-        ProfessionPorter,
-        ProfessionSailor,
-        ProfessionScribe,
-        ProfessionShepherd,
-        ProfessionStableMaster,
-        ProfessionSoldier,
-        ProfessionTanner,
-        ProfessionTrapper,
-        ProfessionWoodcutter,
-        Ride,
-        SenseMotive,
-        SleightOfHand,
-        Spellcraft,
-        Stealth,
-        Survival,
-        Swim,
-        UseMagicDevice,
-    }
-
     class CharacterSkill : INotifyPropertyChanged
     {
-        private SkillName _skillName;
+        private string _skillName;
         private string _skillDisplayName;
-        private AbilityScoreName _governingAbilityScore;
+        private string _governingAbilityScore;
         private bool appliesArmorCheckPenalty;
         private int _baseSkillValue = 0;
         private int _calculatedValue = 0;
         private List<Paragraph> _description = new List<Paragraph>();
-        private LinkedList<SkillModification> _skillModifiers;
         private bool _trainedOnly = false;
         private bool _isClassSkill = false;
         private bool _isCraftSkill = false;
@@ -181,9 +64,9 @@ namespace InteractiveCharacterSheet
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        internal SkillName SkillName { get => _skillName; set => _skillName = value; }
+        internal string SkillName { get => _skillName; set => _skillName = value; }
         public string SkillDisplayName { get => _skillDisplayName; set => _skillDisplayName = value; }
-        public AbilityScoreName GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
+        public string GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
         public bool AppliesArmorCheckPenalty { get => appliesArmorCheckPenalty; set => appliesArmorCheckPenalty = value; }
         public bool TrainedOnly { get => _trainedOnly; set => _trainedOnly = value; }
         public int BaseSkillValue
@@ -197,7 +80,6 @@ namespace InteractiveCharacterSheet
         }
         public int CalculatedValue { get => _calculatedValue; set => _calculatedValue = value; }
         public List<Paragraph> Description { get => _description; set => _description = value; }
-        internal LinkedList<SkillModification> SkillModifiers { get => _skillModifiers; set => _skillModifiers = value; }
         public bool IsClassSkill { get => _isClassSkill; set => _isClassSkill = value; }
         public bool IsCraftSkill { get => _isCraftSkill; set => _isCraftSkill = value; }
         public bool IsProfession { get => _isProfession; set => _isProfession = value; }
@@ -215,39 +97,13 @@ namespace InteractiveCharacterSheet
 
         }
 
-        public CharacterSkill(SkillName skillName, string skilldisplayName, AbilityScoreName governingAbilityScore, bool appliesArmorCheckPenalty, bool isCraftSkill)
+        public CharacterSkill(string skillName, string skilldisplayName, string governingAbilityScore, bool appliesArmorCheckPenalty, bool isCraftSkill)
         {
             SkillName = skillName;
+            SkillDisplayName = skilldisplayName;
             GoverningAbilityScore = governingAbilityScore;
             AppliesArmorCheckPenalty = appliesArmorCheckPenalty;
             IsCraftSkill = isCraftSkill;
-            SkillModifiers = new LinkedList<SkillModification>();
-        }
-
-        public Error AddModification(SkillModification modification)
-        {
-            if (modification.SkillName == SkillName)
-            {
-                SkillModifiers.AddLast(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to add " + modification.SkillName + " modification from " + modification.ModificationSource + " to skill " + SkillName + " failed. Skill name mismatch.");
-            }
-        }
-
-        public Error RemoveModification(SkillModification modification)
-        {
-            if (modification.SkillName == SkillName)
-            {
-                SkillModifiers.Remove(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to remove " + modification.SkillName + " modification from " + modification.ModificationSource + " to skill " + SkillName + " failed. Skill name mismatch.");
-            }
         }
     }
 
@@ -255,86 +111,21 @@ namespace InteractiveCharacterSheet
 
     #region Attributes
 
-    enum AttributeName
-    {
-        ArmorClass,
-        TouchArmorClass,
-        FlatFootArmorClass,
-        FortitudeSavingThrows,
-        ReflexSavingThrows,
-        WillSavingThrows,
-        MeleeAttackModifier,
-        RangedAttackModifier,
-        CombatManeuverBonus,
-        CombatManeuverDefense,
-        ArmorPenalty,
-        MaxDexterityModifier,
-        SpellFailure,
-        Initiative,
-        DamageReduction,
-        SpellResist,
-        ActionPoints,
-        WalkSpeed,
-        FlySpeed,
-        SwimSpeed,
-        ClimbSpeed,
-        FireResistance,
-        ColdResistance,
-        AcidResistance,
-        ElectricityResistance,
-        SonicResistance,
-        ForceResistance,
-        EnergyResistance,
-        MentalResistance,
-        SneakAttackDamage,
-        FeatCount,
-        SkillPointCount,
-        SkillPointsPerLevel
-    }
-
     class CharacterAttribute
     {
-        private AttributeName _attributeName;
-        private AbilityScoreName _governingAbilityScore;
+        private string _attributeName;
+        private string _governingAbilityScore;
         private int _baseAttributeValue = 0;
-        private LinkedList<AttributeModification> _attributeModifiers;
         private int _attributeValue = 0;
 
         public int BaseAttributeValue { get => _baseAttributeValue; set => _baseAttributeValue = value; }
         public int AttributeValue { get => _attributeValue; set => _attributeValue = value; }
-        internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
-        internal AbilityScoreName GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
-        internal LinkedList<AttributeModification> AttributeModifiers { get => _attributeModifiers; set => _attributeModifiers = value; }
+        internal string AttributeName { get => _attributeName; set => _attributeName = value; }
+        internal string GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
 
         public CharacterAttribute()
         {
-            AttributeModifiers = new LinkedList<AttributeModification>();
-        }
 
-        public Error AddModification(AttributeModification modification)
-        {
-            if (modification.AttributeName == AttributeName)
-            {
-                AttributeModifiers.AddLast(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to add " + modification.AttributeName + " modification from " + modification.ModificationSource + " to attribute " + AttributeName + " failed. Attribute name mismatch.");
-            }
-        }
-
-        public Error RemoveModification(AttributeModification modification)
-        {
-            if (modification.AttributeName == AttributeName)
-            {
-                AttributeModifiers.Remove(modification);
-                return new Error();
-            }
-            else
-            {
-                return new Error("Attempt to remove " + modification.AttributeName + " modification from " + modification.ModificationSource + " to attribute " + AttributeName + " failed. Attribute name mismatch.");
-            }
         }
     }
 
@@ -500,8 +291,235 @@ namespace InteractiveCharacterSheet
 
     #region Modifications
 
-    abstract class CharacterModification
+    class CharacterModCollection
     {
+        private LinkedList<CharacterModification> _modList;
+        private HashSet<string> _abilityScoreNames;
+        private HashSet<string> _attributeNames;
+        private HashSet<string> _skillNames;
+
+        internal LinkedList<CharacterModification> ModList { get => _modList; set => _modList = value; }
+
+        public CharacterModCollection()
+        {
+            LoadNameCache();
+            ModList = new LinkedList<CharacterModification>();
+        }
+
+        public Error AddModification(CharacterModification mod)
+        {
+            switch (mod.Type)
+            {
+                case CharacterModification.ModType.AbilityScore:
+                    if (_abilityScoreNames.Contains(mod.Property) == false)
+                    {
+                        return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided ability score name is not a recognized Ability Score.");
+                    }
+                    break;
+                case CharacterModification.ModType.Attribute:
+                    if (_attributeNames.Contains(mod.Property) == false)
+                    {
+                        return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided attribute name is not a recognized character attribute.");
+                    }
+                    break;
+                case CharacterModification.ModType.Skill:
+                    if (_skillNames.Contains(mod.Property) == false)
+                    {
+                        return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided skill name is not a recognized skill.");
+                    }
+                    break;
+                default:
+                    return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Unrecognized type.");
+            }
+
+            ModList.AddLast(mod);
+            return new Error();
+        }
+
+        public Error RemoveModification(string modSource)
+        {
+            return new Error();
+        }
+
+        public void LoadNameCache()
+        {
+            string[] attributes = new string[]
+            {
+                "ArmorClass",
+                "TouchArmorClass",
+                "FlatFootArmorClass",
+                "FortitudeSavingThrows",
+                "ReflexSavingThrows",
+                "WillSavingThrows",
+                "MeleeAttackModifier",
+                "RangedAttackModifier",
+                "CombatManeuverBonus",
+                "CombatManeuverDefense",
+                "ArmorPenalty",
+                "MaxDexterityModifier",
+                "SpellFailure",
+                "Initiative",
+                "DamageReduction",
+                "SpellResist",
+                "ActionPoints",
+                "WalkSpeed",
+                "FlySpeed",
+                "SwimSpeed",
+                "ClimbSpeed",
+                "FireResistance",
+                "ColdResistance",
+                "AcidResistance",
+                "ElectricityResistance",
+                "SonicResistance",
+                "ForceResistance",
+                "EnergyResistance",
+                "MentalResistance",
+                "SneakAttackDamage",
+                "FeatCount",
+                "SkillPointCount",
+                "SkillPointsPerLevel"
+            };
+            _attributeNames = new HashSet<string>(attributes);
+
+            string[] abilityScores = new string[]
+            {
+                "ArmorClass",
+                "TouchArmorClass",
+                "FlatFootArmorClass",
+                "FortitudeSavingThrows",
+                "ReflexSavingThrows",
+                "WillSavingThrows",
+                "MeleeAttackModifier",
+                "RangedAttackModifier",
+                "CombatManeuverBonus",
+                "CombatManeuverDefense",
+                "ArmorPenalty",
+                "MaxDexterityModifier",
+                "SpellFailure",
+                "Initiative",
+                "DamageReduction",
+                "SpellResist",
+                "ActionPoints",
+                "WalkSpeed",
+                "FlySpeed",
+                "SwimSpeed",
+                "ClimbSpeed",
+                "FireResistance",
+                "ColdResistance",
+                "AcidResistance",
+                "ElectricityResistance",
+                "SonicResistance",
+                "ForceResistance",
+                "EnergyResistance",
+                "MentalResistance",
+                "SneakAttackDamage",
+                "FeatCount",
+                "SkillPointCount",
+                "SkillPointsPerLevel"
+            };
+            _abilityScoreNames = new HashSet<string>(abilityScores);
+
+            string[] skills = new string[]
+            {
+                "Acrobatics",
+                "Appraise",
+                "Bluff",
+                "Climb",
+                "CraftAlchemy",
+                "CraftArmor",
+                "CraftBaskets",
+                "CraftBooks",
+                "CraftBows",
+                "CraftCalligraphy",
+                "CraftCarpentry",
+                "CraftCloth",
+                "CraftClothing",
+                "CraftGlass",
+                "CraftJewelry",
+                "CraftLeather",
+                "CraftLocks",
+                "CraftPaintings",
+                "CraftPottery",
+                "CraftScupltures",
+                "CraftShips",
+                "CraftShoes",
+                "CraftStonemasonry",
+                "CraftTraps",
+                "CraftWeapons",
+                "Diplomacy",
+                "DisableDevice",
+                "Disguise",
+                "EscapeArtist",
+                "Fly",
+                "HandleAnimal",
+                "Heal",
+                "Intimidate",
+                "KnowledgeArcana",
+                "KnowledgeDungeoneering",
+                "KnowledgeEngineering",
+                "KnowledgeGeography",
+                "KnowledgeHistory",
+                "KnowledgeLocal",
+                "KnowledgeNature",
+                "KnowledgeNobility",
+                "KnowledgePlanes",
+                "KnowledgeReligion",
+                "Lingusitics",
+                "Perception",
+                "Perform",
+                "ProfessionArchitect",
+                "ProfessionBaker",
+                "ProfessionBarrister",
+                "ProfessionBrewer",
+                "ProfessionButcher",
+                "ProfessionClerk",
+                "ProfessionCook",
+                "ProfessionCourtesan",
+                "ProfessionDriver",
+                "ProfessionEngineer",
+                "ProfessionFarmer",
+                "ProfessionFisherman",
+                "ProfessionGambler",
+                "ProfessionGardener",
+                "ProfessionHerbalist",
+                "ProfessionInnkeeper",
+                "ProfessionLibrarian",
+                "ProfessionMerchant",
+                "ProfessionMidwife",
+                "ProfessionMiller",
+                "ProfessionMiner",
+                "ProfessionPorter",
+                "ProfessionSailor",
+                "ProfessionScribe",
+                "ProfessionShepherd",
+                "ProfessionStableMaster",
+                "ProfessionSoldier",
+                "ProfessionTanner",
+                "ProfessionTrapper",
+                "ProfessionWoodcutter",
+                "Ride",
+                "SenseMotive",
+                "SleightOfHand",
+                "Spellcraft",
+                "Stealth",
+                "Survival",
+                "Swim",
+                "UseMagicDevice"
+            };
+            _skillNames = new HashSet<string>(skills);
+        }
+    }
+}
+
+    class CharacterModification
+    {
+        public enum ModType
+        {
+            AbilityScore,
+            Attribute,
+            Skill
+        }
+
         public enum ValueType
         {
             Numeric,
@@ -516,50 +534,18 @@ namespace InteractiveCharacterSheet
             Division
         }
 
+        private ModType _type;
+        private string _property;
         private ModificationAction _action;
         private double _modificationValue;
         private string _modificationSource;
 
+        internal ModType Type { get => _type; set => _type = value; }
+        public string Property { get => _property; set => _property = value; }
         internal ModificationAction Action { get => _action; set => _action = value; }
         public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         public double ModificationValue { get => _modificationValue; set => _modificationValue = value; }
-    }
-
-    class SkillModification : CharacterModification
-    {
         
-        private SkillName _skillName;
-
-        internal SkillName SkillName { get => _skillName; set => _skillName = value; }
-
-        public SkillModification()
-        {
-
-        }
-    }
-
-    class AbilityScoreModification : CharacterModification
-    {
-        private AbilityScoreName _abilityScore;
-
-        internal AbilityScoreName AbilityScore { get => _abilityScore; set => _abilityScore = value; }
-
-        public AbilityScoreModification()
-        {
-
-        }
-    }
-
-    class AttributeModification : CharacterModification
-    {
-        private AttributeName _attributeName;
-
-        internal AttributeName AttributeName { get => _attributeName; set => _attributeName = value; }
-
-        public AttributeModification()
-        {
-
-        }
     }
 
     #endregion
@@ -594,4 +580,3 @@ namespace InteractiveCharacterSheet
     }
 
     #endregion
-}

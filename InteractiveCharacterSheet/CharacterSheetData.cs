@@ -31,6 +31,7 @@ namespace InteractiveCharacterSheet
         private CharacterAbilityScore _wisdom = new CharacterAbilityScore();
         private CharacterAbilityScore _charisma = new CharacterAbilityScore();
         private ObservableCollection<CharacterSkill> _skills;
+        private CharacterModCollection _modifications;
 
         public Error Error;
 

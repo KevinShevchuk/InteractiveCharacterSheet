@@ -188,15 +188,13 @@ namespace InteractiveCharacterSheet
                 switch (xe.Name.LocalName)
                 {
                     case "Name":
-                        Enum.TryParse(xe.Value, out SkillName sn);
-                        skill.SkillName = sn;
+                        skill.SkillName = (string)xe;
                         break;
                     case "DisplayName":
                         skill.SkillDisplayName = (string)xe;
                         break;
                     case "GoverningAbilityScore":
-                        Enum.TryParse(xe.Value, out AbilityScoreName an);
-                        skill.GoverningAbilityScore = an;
+                        skill.GoverningAbilityScore = (string)xe;
                         break;
                     case "AppliesArmorCheckPenalty":
                         skill.AppliesArmorCheckPenalty = (bool)xe;
@@ -304,33 +302,22 @@ namespace InteractiveCharacterSheet
 
         private CharacterModification LoadModification(XElement el)
         {
+            CharacterModification mod = new CharacterModification();
+
             XElement typeNode = el.Descendants("Type").First();
             if (typeNode != null)
             {
-                switch ((string)typeNode)
-                {
-                    case "AbilityScore":
-                        return LoadModification2(el, new AbilityScoreModification());
-                    case "Attribute":
-                        return LoadModification2(el, new AttributeModification());
-                    case "Skill":
-                        return LoadModification2(el, new SkillModification());
-                }
+                IEnumerable<XElement> nodes = el.Descendants();
+                //foreach (XElement xe in nodes)
+                //{
+                //    switch (xe.Name.LocalName)
+                //    {
+
+                //    }
+                //}
+                return mod;
             }
             return null;
-        }
-
-        private CharacterModification LoadModification2(XElement el, CharacterModification mod)
-        {
-            IEnumerable<XElement> nodes = el.Descendants();
-            //foreach (XElement xe in nodes)
-            //{
-            //    switch (xe.Name.LocalName)
-            //    {
-
-            //    }
-            //}
-            return mod;
         }
 
         private List<Paragraph> TextBlocktoParagraphs(XmlReader inner)
