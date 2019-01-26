@@ -320,6 +320,30 @@ namespace InteractiveCharacterSheet
             return null;
         }
 
+        private LevelTable LoadLevelTable(XElement el)
+        {
+            LevelTable lt = new LevelTable();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                if (xe.Name == "t")
+                {
+                    foreach (XElement e in xe.Descendants())
+                    {
+                        LevelTableRow ltr = new LevelTableRow();
+                        ltr.Property = el.Attribute("Property").Value;
+                        if(Enum.TryParse(el.Attribute("ValueType").Value, out ValueType vt))
+                            ltr.ValueType = vt;
+                        if(Enum.TryParse(el.Attribute("Action").Value, out ModificationAction ma))
+                            ltr.ModAction = ma;
+                        if (double.TryParse(el.Attribute("Value").Value, out double val))
+                            ltr.Value = val;
+                    }
+                }
+            }
+            return lt;
+
+        }
         private List<Paragraph> TextBlocktoParagraphs(XmlReader inner)
         {
             List<Paragraph> paragraphs = new List<Paragraph>();

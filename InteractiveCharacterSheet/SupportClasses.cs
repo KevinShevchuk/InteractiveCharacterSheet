@@ -9,7 +9,7 @@ namespace InteractiveCharacterSheet
         2.  Named indices to the various lists if applicable.
      */
     #region AbilityScores
-    
+
     //enum AbilityScoreName
     //{
     //    Constitution,
@@ -214,7 +214,7 @@ namespace InteractiveCharacterSheet
         internal List<RacialTrait> TraitList { get => _traitList; set => _traitList = value; }
         internal List<FavoredClass> FavoredClassBonuses { get => _favoredClassBonuses; set => _favoredClassBonuses = value; }
         public List<Paragraph> Description { get => _description; set => _description = value; }
-        
+
     }
 
     class RaceSubType
@@ -286,7 +286,7 @@ namespace InteractiveCharacterSheet
             this._sizeModifierStealth = sizeModifierStealth;
             this._space = space;
             this._naturalReach = naturalReach;
-        }   
+        }
     }
 
     #region Modifications
@@ -310,19 +310,19 @@ namespace InteractiveCharacterSheet
         {
             switch (mod.Type)
             {
-                case CharacterModification.ModType.AbilityScore:
+                case ModType.AbilityScore:
                     if (_abilityScoreNames.Contains(mod.Property) == false)
                     {
                         return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided ability score name is not a recognized Ability Score.");
                     }
                     break;
-                case CharacterModification.ModType.Attribute:
+                case ModType.Attribute:
                     if (_attributeNames.Contains(mod.Property) == false)
                     {
                         return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided attribute name is not a recognized character attribute.");
                     }
                     break;
-                case CharacterModification.ModType.Skill:
+                case ModType.Skill:
                     if (_skillNames.Contains(mod.Property) == false)
                     {
                         return new Error("Attempt to add " + mod.Property + " modification from " + mod.ModificationSource + " failed. Provided skill name is not a recognized skill.");
@@ -509,43 +509,64 @@ namespace InteractiveCharacterSheet
             _skillNames = new HashSet<string>(skills);
         }
     }
-}
+
+    public enum ModType
+    {
+        AbilityScore,
+        Attribute,
+        Skill
+    }
+
+    public enum ValueType
+    {
+        Numeric,
+        Dice
+    }
+
+    public enum ModificationAction
+    {
+        Addition,
+        Subtraction,
+        Multiplication,
+        Division
+    }
+
+    public enum ModMode
+    {
+        None,
+        LevelTable
+    }
 
     class CharacterModification
     {
-        public enum ModType
-        {
-            AbilityScore,
-            Attribute,
-            Skill
-        }
-
-        public enum ValueType
-        {
-            Numeric,
-            Dice
-        }
-
-        public enum ModificationAction
-        {
-            Addition,
-            Subtraction,
-            Multiplication,
-            Division
-        }
-
         private ModType _type;
         private string _property;
         private ModificationAction _action;
         private double _modificationValue;
         private string _modificationSource;
+        private ModMode _mode = ModMode.None;
+        private LevelTable _levelTable;
 
         internal ModType Type { get => _type; set => _type = value; }
+        internal ModMode Mode { get => _mode; set => _mode = value; }
         public string Property { get => _property; set => _property = value; }
         internal ModificationAction Action { get => _action; set => _action = value; }
         public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
         public double ModificationValue { get => _modificationValue; set => _modificationValue = value; }
-        
+        internal LevelTable LevelTable { get => _levelTable; set => _levelTable = value; }
+
+        public Error Validate()
+        {
+            if (Mode == ModMode.LevelTable && LevelTable == null)
+                return new Error("ModMode is set to LevelTable But no level table is present.");
+            if (Mode == ModMode.LevelTable)
+            {
+                Error e = LevelTable.Validate();
+                if (e != null)
+                    return e;
+            }
+            return null;
+        }
     }
 
     #endregion
@@ -554,8 +575,34 @@ namespace InteractiveCharacterSheet
 
     class LevelTable
     {
-        private int _level;
-        private List<CharacterModification> _modifications;
+        private Dictionary<int, LevelTableRow> _table; //int is the level.
+
+        internal Dictionary<int, LevelTableRow> Table { get => _table; set => _table = value; }
+
+        public LevelTableRow GetCurrentLevelTableRow(int level)
+        {
+            return _table[level];
+        }
+
+        public Error Validate()
+        {
+            if (_table.Count != 20)
+                return new Error("LevelTable must have row for each of the characters 20 levels. At least one is missing.");
+            return null;
+        }
+    }
+
+    class LevelTableRow
+    {
+        private string _property;
+        private ValueType _valueType;
+        private ModificationAction _modAction;
+        private double _value;
+
+        public string Property { get => _property; set => _property = value; }
+        public ValueType ValueType { get => _valueType; set => _valueType = value; }
+        public ModificationAction ModAction { get => _modAction; set => _modAction = value; }
+        public double Value { get => _value; set => _value = value; }
     }
 
     #endregion
@@ -580,3 +627,4 @@ namespace InteractiveCharacterSheet
     }
 
     #endregion
+}
