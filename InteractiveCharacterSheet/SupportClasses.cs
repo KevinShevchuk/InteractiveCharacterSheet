@@ -4,33 +4,14 @@ using System.Windows.Documents;
 
 namespace InteractiveCharacterSheet
 {
-    /*Name Enums exist for two reasons:
-        1.  validation purposes for XML importing. if the imported name does not exist in the enum it isn't a valid addition.
-        2.  Named indices to the various lists if applicable.
-     */
     #region AbilityScores
-
-    //enum AbilityScoreName
-    //{
-    //    Constitution,
-    //    Dexterity,
-    //    Strength,
-    //    Intelligence,
-    //    Wisdom,
-    //    Charisma,
-    //}
 
     class CharacterAbilityScore
     {
-        private int _baseAbilityScoreValue = 0;
-        private int _AbilityScore = 0;
-        private int _modifier = 0;
-        private string scoreName;
-
-        public int BaseAbilityScoreValue { get => _baseAbilityScoreValue; set => _baseAbilityScoreValue = value; }
-        public int AbilityScore { get => _AbilityScore; set => _AbilityScore = value; }
-        public int Modifier { get => _modifier; set => _modifier = value; }
-        internal string ScoreName { get => scoreName; set => scoreName = value; }
+        public int BaseAbilityScoreValue { get; set; } = 0;
+        public int AbilityScore { get; set; } = 0;
+        public int Modifier { get; set; } = 0;
+        internal string ScoreName { get; set; }
 
         public CharacterAbilityScore()
         {
@@ -44,17 +25,7 @@ namespace InteractiveCharacterSheet
 
     class CharacterSkill : INotifyPropertyChanged
     {
-        private string _skillName;
-        private string _skillDisplayName;
-        private string _governingAbilityScore;
-        private bool appliesArmorCheckPenalty;
         private int _baseSkillValue = 0;
-        private int _calculatedValue = 0;
-        private List<Paragraph> _description = new List<Paragraph>();
-        private bool _trainedOnly = false;
-        private bool _isClassSkill = false;
-        private bool _isCraftSkill = false;
-        private bool _isProfession = false;
         private bool _hasTools = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,11 +35,11 @@ namespace InteractiveCharacterSheet
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        internal string SkillName { get => _skillName; set => _skillName = value; }
-        public string SkillDisplayName { get => _skillDisplayName; set => _skillDisplayName = value; }
-        public string GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
-        public bool AppliesArmorCheckPenalty { get => appliesArmorCheckPenalty; set => appliesArmorCheckPenalty = value; }
-        public bool TrainedOnly { get => _trainedOnly; set => _trainedOnly = value; }
+        internal string SkillName { get; set; }
+        public string SkillDisplayName { get; set; }
+        public string GoverningAbilityScore { get; set; }
+        public bool AppliesArmorCheckPenalty { get; set; }
+        public bool TrainedOnly { get; set; } = false;
         public int BaseSkillValue
         {
             get => _baseSkillValue;
@@ -78,17 +49,17 @@ namespace InteractiveCharacterSheet
                 NotifyPropertyChanged("BaseSkillValue");
             }
         }
-        public int CalculatedValue { get => _calculatedValue; set => _calculatedValue = value; }
-        public List<Paragraph> Description { get => _description; set => _description = value; }
-        public bool IsClassSkill { get => _isClassSkill; set => _isClassSkill = value; }
-        public bool IsCraftSkill { get => _isCraftSkill; set => _isCraftSkill = value; }
-        public bool IsProfession { get => _isProfession; set => _isProfession = value; }
+        public int CalculatedValue { get; set; } = 0;
+        public List<Paragraph> Description { get; set; } = new List<Paragraph>();
+        public bool IsClassSkill { get; set; } = false;
+        public bool IsCraftSkill { get; set; } = false;
+        public bool IsProfession { get; set; } = false;
         public bool HasTools
         {
             get => _hasTools;
             set
             {
-                if (_isCraftSkill == true) { _hasTools = value; }
+                if (IsCraftSkill == true) { _hasTools = value; }
             }
         }
 
@@ -113,15 +84,10 @@ namespace InteractiveCharacterSheet
 
     class CharacterAttribute
     {
-        private string _attributeName;
-        private string _governingAbilityScore;
-        private int _baseAttributeValue = 0;
-        private int _attributeValue = 0;
-
-        public int BaseAttributeValue { get => _baseAttributeValue; set => _baseAttributeValue = value; }
-        public int AttributeValue { get => _attributeValue; set => _attributeValue = value; }
-        internal string AttributeName { get => _attributeName; set => _attributeName = value; }
-        internal string GoverningAbilityScore { get => _governingAbilityScore; set => _governingAbilityScore = value; }
+        public int BaseAttributeValue { get; set; } = 0;
+        public int AttributeValue { get; set; } = 0;
+        internal string AttributeName { get; set; }
+        internal string GoverningAbilityScore { get; set; }
 
         public CharacterAttribute()
         {
@@ -137,20 +103,23 @@ namespace InteractiveCharacterSheet
 
     #region Classes
 
-    public enum HitDice
+    public enum DieSize
     {
+        None,
+        d3,
         d4,
         d6,
         d8,
         d10,
-        d12
+        d12,
+        d100
     }
 
     class CharacterClass
     {
         private string _className;
         private string _classDisplayName;
-        private HitDice _hitDicePerLevel;
+        private DieSize _hitDicePerLevel;
         private List<CharacterSkill> _classSkills;
         private int _skillRanksPerLevel;
     }
@@ -189,103 +158,68 @@ namespace InteractiveCharacterSheet
 
     class Race
     {
-        private string _raceName;
-        private string _raceDisplayName;
-        private string _size;
-        private int _baseSpeed;
-        private int _baseSwimSpeed;
-        private int _baseFlySpeed;
-        private string _languages;
-        private RaceSubType _subType;
-        private Bloodline _bloodline;
-        private List<RacialTrait> _traitList;
-        private List<FavoredClass> _favoredClassBonuses;
-        private List<Paragraph> _description;
-
-        public string RaceName { get => _raceName; set => _raceName = value; }
-        public string RaceDisplayName { get => _raceDisplayName; set => _raceDisplayName = value; }
-        public string Size { get => _size; set => _size = value; }
-        public int BaseSpeed { get => _baseSpeed; set => _baseSpeed = value; }
-        public int BaseSwimSpeed { get => _baseSwimSpeed; set => _baseSwimSpeed = value; }
-        public int BaseFlySpeed { get => _baseFlySpeed; set => _baseFlySpeed = value; }
-        public string Languages { get => _languages; set => _languages = value; }
-        internal RaceSubType SubType { get => _subType; set => _subType = value; }
-        internal Bloodline Bloodline { get => _bloodline; set => _bloodline = value; }
-        internal List<RacialTrait> TraitList { get => _traitList; set => _traitList = value; }
-        internal List<FavoredClass> FavoredClassBonuses { get => _favoredClassBonuses; set => _favoredClassBonuses = value; }
-        public List<Paragraph> Description { get => _description; set => _description = value; }
+        public string RaceName { get; set; }
+        public string RaceDisplayName { get; set; }
+        public string Size { get; set; }
+        public int BaseSpeed { get; set; }
+        public int BaseSwimSpeed { get; set; }
+        public int BaseFlySpeed { get; set; }
+        public string Languages { get; set; }
+        internal RaceSubType SubType { get; set; }
+        internal Bloodline Bloodline { get; set; }
+        internal List<RacialTrait> TraitList { get; set; }
+        internal List<FavoredClass> FavoredClassBonuses { get; set; }
+        public List<Paragraph> Description { get; set; }
 
     }
 
     class RaceSubType
     {
-        private string _subTypeName;
-        private string _subtypeDisplayName;
-
-        public string SubTypeName { get => _subTypeName; set => _subTypeName = value; }
-        public string SubtypeDisplayName { get => _subtypeDisplayName; set => _subtypeDisplayName = value; }
+        public string SubTypeName { get; set; }
+        public string SubtypeDisplayName { get; set; }
     }
 
     class FavoredClass
     {
-        private CharacterClass _characterClass;
-        private LevelTable _levelTable;
-
-        internal CharacterClass CharacterClass { get => _characterClass; set => _characterClass = value; }
-        internal LevelTable LevelTable { get => _levelTable; set => _levelTable = value; }
+        internal CharacterClass CharacterClass { get; set; }
+        internal LevelTable LevelTable { get; set; }
     }
 
     class Bloodline
     {
-        private string _bloodlineName;
-        private string _bloodlineDisplayName;
-
-        public string BloodlineName { get => _bloodlineName; set => _bloodlineName = value; }
-        public string BloodlineDisplayName { get => _bloodlineDisplayName; set => _bloodlineDisplayName = value; }
+        public string BloodlineName { get; set; }
+        public string BloodlineDisplayName { get; set; }
     }
 
     class RacialTrait
     {
-        private string _name;
-        private string _displayName;
-        private List<Paragraph> _description;
-        private List<CharacterModification> _modifications;
-
-        public string Name { get => _name; set => _name = value; }
-        public string DisplayName { get => _displayName; set => _displayName = value; }
-        public List<Paragraph> Description { get => _description; set => _description = value; }
-        internal List<CharacterModification> Modifications { get => _modifications; set => _modifications = value; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public List<Paragraph> Description { get; set; }
+        internal List<CharacterModification> Modifications { get; set; }
     }
 
     #endregion
 
     class CharacterSize
     {
-        private readonly string _size;
-        private readonly int _sizeModifier;
-        private readonly int _specialSizeModifier;
-        private readonly int _sizeModifierFly;
-        private readonly int _sizeModifierStealth;
-        private readonly int _space;
-        private readonly int _naturalReach;
-
-        public string Size => _size;
-        public int SizeModifier => _sizeModifier;
-        public int SpecialSizeModifier => _specialSizeModifier;
-        public int SizeModifierFly => _sizeModifierFly;
-        public int SizeModifierStealth => _sizeModifierStealth;
-        public int Space => _space;
-        public int NaturalReach => _naturalReach;
+        public string Size { get; }
+        public int SizeModifier { get; }
+        public int SpecialSizeModifier { get; }
+        public int SizeModifierFly { get; }
+        public int SizeModifierStealth { get; }
+        public int Space { get; }
+        public int NaturalReach { get; }
 
         public CharacterSize(string size, int sizeModifier, int specialSizeModifier, int sizeModifierFly, int sizeModifierStealth, int space, int naturalReach)
         {
-            this._size = size;
-            this._sizeModifier = sizeModifier;
-            this._specialSizeModifier = specialSizeModifier;
-            this._sizeModifierFly = sizeModifierFly;
-            this._sizeModifierStealth = sizeModifierStealth;
-            this._space = space;
-            this._naturalReach = naturalReach;
+            Size = size;
+            SizeModifier = sizeModifier;
+            SpecialSizeModifier = specialSizeModifier;
+            SizeModifierFly = sizeModifierFly;
+            SizeModifierStealth = sizeModifierStealth;
+            Space = space;
+            NaturalReach = naturalReach;
         }
     }
 
@@ -293,12 +227,11 @@ namespace InteractiveCharacterSheet
 
     class CharacterModCollection
     {
-        private LinkedList<CharacterModification> _modList;
         private HashSet<string> _abilityScoreNames;
         private HashSet<string> _attributeNames;
         private HashSet<string> _skillNames;
 
-        internal LinkedList<CharacterModification> ModList { get => _modList; set => _modList = value; }
+        internal LinkedList<CharacterModification> ModList { get; set; }
 
         public CharacterModCollection()
         {
@@ -517,12 +450,6 @@ namespace InteractiveCharacterSheet
         Skill
     }
 
-    public enum ValueType
-    {
-        Numeric,
-        Dice
-    }
-
     public enum ModificationAction
     {
         Addition,
@@ -534,37 +461,36 @@ namespace InteractiveCharacterSheet
     public enum ModMode
     {
         None,
-        LevelTable
+        LevelTable,
+        PlayerChoice
     }
 
     class CharacterModification
     {
-        private ModType _type;
-        private string _property;
-        private ModificationAction _action;
-        private double _modificationValue;
-        private string _modificationSource;
-        private ModMode _mode = ModMode.None;
-        private LevelTable _levelTable;
-
-        internal ModType Type { get => _type; set => _type = value; }
-        internal ModMode Mode { get => _mode; set => _mode = value; }
-        public string Property { get => _property; set => _property = value; }
-        internal ModificationAction Action { get => _action; set => _action = value; }
-        public string ModificationSource { get => _modificationSource; set => _modificationSource = value; }
-        public double ModificationValue { get => _modificationValue; set => _modificationValue = value; }
-        internal LevelTable LevelTable { get => _levelTable; set => _levelTable = value; }
+        internal ModType Type { get; set; }
+        internal ModMode Mode { get; set; } = ModMode.None;
+        public string Property { get; set; }
+        internal ModificationAction Action { get; set; } = ModificationAction.Addition;
+        public string ModificationSource { get; set; }
+        internal LevelTable LevelTable { get; set; }
+        public List<string> OptionsList { get; set; }
+        public DieSize DieSize { get; set; } = DieSize.None;
+        public double Value { get; set; }
 
         public Error Validate()
         {
             if (Mode == ModMode.LevelTable && LevelTable == null)
-                return new Error("ModMode is set to LevelTable But no level table is present.");
+                return new Error("Mode is set to LevelTable But no level table is present.");
             if (Mode == ModMode.LevelTable)
             {
                 Error e = LevelTable.Validate();
                 if (e != null)
                     return e;
             }
+            if (Mode == ModMode.PlayerChoice && OptionsList?.Count > 0)
+                return new Error("Mode is set to PlayerChoice but no options are specified.");
+
+
             return null;
         }
     }
@@ -575,18 +501,21 @@ namespace InteractiveCharacterSheet
 
     class LevelTable
     {
-        private Dictionary<int, LevelTableRow> _table; //int is the level.
+        internal Dictionary<int, LevelTableRow> Table { get; set; }
 
-        internal Dictionary<int, LevelTableRow> Table { get => _table; set => _table = value; }
+        public LevelTable()
+        {
+            Table = new Dictionary<int, LevelTableRow>();
+        }
 
         public LevelTableRow GetCurrentLevelTableRow(int level)
         {
-            return _table[level];
+            return Table[level];
         }
 
         public Error Validate()
         {
-            if (_table.Count != 20)
+            if (Table.Count != 20)
                 return new Error("LevelTable must have row for each of the characters 20 levels. At least one is missing.");
             return null;
         }
@@ -594,15 +523,10 @@ namespace InteractiveCharacterSheet
 
     class LevelTableRow
     {
-        private string _property;
-        private ValueType _valueType;
-        private ModificationAction _modAction;
-        private double _value;
-
-        public string Property { get => _property; set => _property = value; }
-        public ValueType ValueType { get => _valueType; set => _valueType = value; }
-        public ModificationAction ModAction { get => _modAction; set => _modAction = value; }
-        public double Value { get => _value; set => _value = value; }
+        public string Property { get; set; }
+        public ModificationAction ModAction { get; set; }
+        public double Value { get; set; }
+        public DieSize DieSize { get; set; } = DieSize.None;
     }
 
     #endregion

@@ -11,11 +11,12 @@ namespace InteractiveCharacterSheet
 {
     class XMLManager
     {
-        private string _executableUrl;
+        private string _directoryRoot;
 
         public XMLManager()
         {
-            _executableUrl = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            //Throws two backslashes on the end that we don't want.
+            _directoryRoot = AppDomain.CurrentDomain.BaseDirectory;
         }
 
         public CharacterSheetData SaveCharacterSheet(CharacterSheetData csd, string inputUrl)
@@ -101,7 +102,7 @@ namespace InteractiveCharacterSheet
             ObservableCollection<CharacterSkill> skills = new ObservableCollection<CharacterSkill>();
             try
             {
-                using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))
+                using (XmlReader reader = XmlReader.Create(_directoryRoot + "XMLDataSheets\\Skills\\Skills.xml"))
                 {
                     reader.MoveToContent();
                     while (reader.Read())
@@ -133,11 +134,10 @@ namespace InteractiveCharacterSheet
             HashSet<Race> races = new HashSet<Race>();
             try
             {
-                string[] filenames = Directory.GetFiles(_executableUrl + "\\XMLDataSheets\\Races\\");
+                string[] filenames = Directory.GetFiles(_directoryRoot + "XMLDataSheets\\Races\\");
                 for (int i = 0; i < filenames.Length; i++)
                 {
-
-                    using (XmlReader reader = XmlReader.Create(_executableUrl + "\\XMLDataSheets\\Skills\\Skills.xml"))
+                    using (XmlReader reader = XmlReader.Create(filenames[i]))
                     {
                         reader.MoveToContent();
                         while (reader.Read())
@@ -259,7 +259,8 @@ namespace InteractiveCharacterSheet
             IEnumerable<XElement> nodes = el.Descendants();
             foreach (XElement xe in nodes)
             {
-                traits.Add(LoadRacialTrait(xe));
+                if(xe.NodeType == XmlNodeType.Element && xe.Name == "Trait")
+                    traits.Add(LoadRacialTrait(xe));
             }
             return traits;
         }
@@ -283,6 +284,10 @@ namespace InteractiveCharacterSheet
                         break;
                     case "Modifications":
                         trait.Modifications = LoadModifications(xe);
+                        foreach (CharacterModification mod in trait.Modifications)
+                        {
+                            mod.ModificationSource = trait.Name;
+                        }
                         break;
                 }
             }
@@ -295,7 +300,8 @@ namespace InteractiveCharacterSheet
             IEnumerable<XElement> nodes = el.Descendants();
             foreach (XElement xe in nodes)
             {
-                mods.Add(LoadModification(xe));
+                if (xe.NodeType == XmlNodeType.Element && xe.Name == "Modification")
+                    mods.Add(LoadModification(xe));
             }
             return mods;
         }
@@ -304,20 +310,43 @@ namespace InteractiveCharacterSheet
         {
             CharacterModification mod = new CharacterModification();
 
-            XElement typeNode = el.Descendants("Type").First();
-            if (typeNode != null)
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
             {
-                IEnumerable<XElement> nodes = el.Descendants();
-                //foreach (XElement xe in nodes)
-                //{
-                //    switch (xe.Name.LocalName)
-                //    {
-
-                //    }
-                //}
-                return mod;
+                switch (xe.Name.LocalName)
+                {
+                    case "Type":
+                        if (Enum.TryParse((string)xe, out ModType mt))
+                            mod.Type = mt;
+                        break;
+                    case "Mode":
+                        if (Enum.TryParse((string)xe, out ModMode mm))
+                            mod.Mode = mm;
+                        break;
+                    case "Property":
+                        mod.Property = (string)xe;
+                        break;
+                    case "Options":
+                        mod.OptionsList = new List<string>();
+                        IEnumerable<XElement> optionsNodes = xe.Descendants();
+                        foreach (XElement xeo in optionsNodes)
+                        {
+                            mod.OptionsList.Add((string)xeo);
+                        }
+                        break;
+                    case "LevelTable":
+                        mod.LevelTable = LoadLevelTable(xe);
+                        break;
+                    case "Value":
+                        mod.Value = (double)xe;
+                        break;
+                    case "DieSize":
+                        if (Enum.TryParse((string)xe, out DieSize ds))
+                            mod.DieSize = ds;
+                        break;
+                }
             }
-            return null;
+            return mod;
         }
 
         private LevelTable LoadLevelTable(XElement el)
@@ -328,17 +357,18 @@ namespace InteractiveCharacterSheet
             {
                 if (xe.Name == "t")
                 {
-                    foreach (XElement e in xe.Descendants())
+                    LevelTableRow ltr = new LevelTableRow();
+                    if (Int32.TryParse(xe.Attribute("Level")?.Value, out int level))
                     {
-                        LevelTableRow ltr = new LevelTableRow();
-                        ltr.Property = el.Attribute("Property").Value;
-                        if(Enum.TryParse(el.Attribute("ValueType").Value, out ValueType vt))
-                            ltr.ValueType = vt;
-                        if(Enum.TryParse(el.Attribute("Action").Value, out ModificationAction ma))
+                        ltr.Property = xe.Attribute("Property")?.Value;
+                        if (Enum.TryParse(xe.Attribute("DieSize")?.Value, out DieSize ds))
+                            ltr.DieSize = ds;
+                        if (Enum.TryParse(xe.Attribute("Action")?.Value, out ModificationAction ma))
                             ltr.ModAction = ma;
-                        if (double.TryParse(el.Attribute("Value").Value, out double val))
+                        if (double.TryParse(xe.Attribute("Value")?.Value, out double val))
                             ltr.Value = val;
                     }
+                    lt.Table.Add(level, ltr);
                 }
             }
             return lt;

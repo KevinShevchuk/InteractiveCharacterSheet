@@ -14,9 +14,9 @@ namespace InteractiveCharacterSheet
 
         public CharacterSheetPresenter()
         {
-            this.DCache = new DataCache();
-            this.XManager = new XMLManager();
-            this.CharSheetData = new CharacterSheetData();
+            DCache = new DataCache();
+            XManager = new XMLManager();
+            CharSheetData = new CharacterSheetData();
         }
 
         public void LoadCharacterSheet(string inputUrl)

@@ -68,7 +68,36 @@
 	Specifies whether the modification has special rules
 
 	Available Values:
-		PlayerChoice
+		PlayerChoice (Player Chooses on selection, selection stored in character xml.)
+
+-----Options----
+	Only used with PlayerChoice Mode
+	Specifies multiple options fort he player to choose from.
+	Values must come from the specified Type.
+
+-----Action-----
+	The mathematical operation to perform on that property.
+
+	Available Values:
+		Addition (Default)
+		Subtract
+		Multiply
+		Divide
+
+-----DieSize-----
+	When paired with a value in the Value property, The Value Property refers to quantity of Die to Action on.
+
+	Available Values:
+		d3
+		d4
+		d6
+		d8
+		d10
+		d12
+		d100
+
+-----Value-----
+	The value 
 
 ==========LevelTable==========
 	This property uses XML attributes for human readability. Rows have a <t> tag.
@@ -85,28 +114,28 @@
 	The mathematical operation to perform on that property.
 
 	Available Values:
-		Add
+		Add (Default)
 		Subtract
 		Multiply
 		Divide
-
------ValueType-----
-	What type of value we are modifying. use the Dice type if adding a polyhedral dice to the value. Dice type is only used when a trait or feat adds a dice to a roll.
-
-	Available Values:
-		Numeric,
-		Dice.
 
 ----Value-----
 	the value to perform the action.
 
 	Available Values:
-		Integer (if Numeric for ValueType.),
-		d4 (If Dice for ValueType),
-		d6 (If Dice for ValueType),
-		d8 (If Dice for ValueType),
-		d10 (If Dice for ValueType),
-		d12 (If Dice for ValueType).
+		Integer,
+
+-----DieSize-----
+	When paired with a value in the Value property, The Value Property refers to quantity of Die to Action on.
+
+	Available Values:
+		d3
+		d4
+		d6
+		d8
+		d10
+		d12
+		d100
 
 ==========Skills==========
 -----Name-----
