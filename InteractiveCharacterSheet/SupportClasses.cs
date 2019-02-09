@@ -295,7 +295,7 @@ namespace InteractiveCharacterSheet
                 "DamageReduction",
                 "SpellResist",
                 "ActionPoints",
-                "WalkSpeed",
+                "MoveSpeed",
                 "FlySpeed",
                 "SwimSpeed",
                 "ClimbSpeed",

@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Classes>
+  <Class>
+    <Name>Barbarian</Name>
+    <DisplayName>Barbarian</DisplayName>
+    <HitDie>d12</HitDie>
+    <BaseSkillRanks>4</BaseSkillRanks>
+    <TrainedSkills>
+      <Skill>Acrobatics</Skill>
+      <Skill>Climb</Skill>
+      <Skill>Craft</Skill>
+      <Skill>HandleAnimal</Skill>
+      <Skill>Intimidate</Skill>
+      <Skill>KnowledgeNature</Skill>
+      <Skill>Perception</Skill>
+      <Skill>Ride</Skill>
+      <Skill>Survival</Skill>
+      <Skill>Swim</Skill>
+    </TrainedSkills>
+    <Proficiencies>
+      <Proficiency>SimpleWeapons</Proficiency>
+      <Proficiency>MartialWeapons</Proficiency>
+      <Proficiency>LightArmor</Proficiency>
+      <Proficiency>MediumArmor</Proficiency>
+      <Proficiency>Shields</Proficiency>
+    </Proficiencies>
+    <RestrictedAlignments>
+      <Alignment>LawfulGood</Alignment>
+      <Alignment>LawfulNeutral</Alignment>
+      <Alignment>LawfulEvil</Alignment>
+    </RestrictedAlignments>
+    <Description>
+      <p>==========Barbarian==========</p>
+      <p>For some, there is only rage. In the ways of their people, in the fury of their passion, in the howl of battle, conflict is all these brutal souls know. Savages, hired muscle, masters of vicious martial techniques, they are not soldiers or professional warriors—they are the battle possessed, creatures of slaughter and spirits of war. Known as barbarians, these warmongers know little of training, preparation, or the rules of warfare; for them, only the moment exists, with the foes that stand before them and the knowledge that the next moment might hold their death. They possess a sixth sense in regard to danger and the endurance to weather all that might entail. These brutal warriors might rise from all walks of life, both civilized and savage, though whole societies embracing such philosophies roam the wild places of the world. Within barbarians storms the primal spirit of battle, and woe to those who face their rage.</p>
+      <p>-----Role-----</p>
+      <p>Barbarians excel in combat, possessing the martial prowess and fortitude to take on foes seemingly far superior to themselves. With rage granting them boldness and daring beyond that of most other warriors, barbarians charge furiously into battle and ruin all who would stand in their way.</p>
+    </Description>
+    <ClassFeatures>
+      <ClassFeature>
+        <Name>FastMovement</Name>
+        <DisplayName>Fast Movement</DisplayName>
+        <Description>
+          <p>-----Fast Movement-----</p>
+          <p>A barbarian’s land speed is faster than the norm for her race by +10 feet. This benefit applies only when he is wearing no armor, light armor, or medium armor, and not carrying a heavy load. Apply this bonus before modifying the barbarian’s speed because of any load carried or armor worn. This bonus stacks with any other bonuses to the barbarian’s land speed.</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Attribute</Type>
+            <Property>MoveSpeed</Property>
+            <Action>Addition</Action>
+            <Value>10</Value>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>Rage</Name>
+        <DisplayName>Rage</DisplayName>
+        <Description>
+          <p>-----Rage-----</p>
+          <p>A barbarian can call upon inner reserves of strength and ferocity, granting her additional combat prowess. Starting at 1st level, a barbarian can rage for a number of rounds per day equal to 4 + her Constitution modifier. At each level after 1st, she can rage for 2 additional rounds. Temporary increases to Constitution, such as those gained from rage and spells like bear’s endurance, do not increase the total number of rounds that a barbarian can rage per day. A barbarian can enter rage as a free action. The total number of rounds of rage per day is renewed after resting for 8 hours, although these hours do not need to be consecutive.</p>
+          <p>While in rage, a barbarian gains a +4 morale bonus to her Strength and Constitution, as well as a +2 morale bonus on Will saves. In addition, she takes a –2 penalty to Armor Class. The increase to Constitution grants the barbarian 2 hit points per Hit Dice, but these disappear when the rage ends and are not lost first like temporary hit points. While in rage, a barbarian cannot use any Charisma-, Dexterity-, or Intelligence-based skills (except Acrobatics, Fly, Intimidate, and Ride) or any ability that requires patience or concentration.</p>
+          <p>A barbarian can end her rage as a free action and is fatigued after rage for a number of rounds equal to 2 times the number of rounds spent in the rage. A barbarian cannot enter a new rage while fatigued or exhausted but can otherwise enter rage multiple times during a single encounter or combat. If a barbarian falls unconscious, her rage immediately ends, placing her in peril of death.</p>
+        </Description>
+        <!--<Modifications>
+          <Modification>
+            <Type></Type>
+            <Mode></Mode>
+            <Property></Property>
+            <Action>Addition</Action>
+            <Value>1</Value>
+          </Modification>
+        </Modifications>-->
+      </ClassFeature>
+      <ClassFeature>
+        <Name>RagePowers</Name>
+        <DisplayName>Rage Powers</DisplayName>
+        <Description>
+          <p>-----Rage Powers-----</p>
+          <p>As a barbarian gains levels, she learns to use her rage in new ways. Starting at 2nd level, a barbarian gains a rage power. She gains another rage power for every two levels of barbarian attained after 2nd level. A barbarian gains the benefits of rage powers only while raging, and some of these powers require the barbarian to take an action first. Unless otherwise noted, a barbarian cannot select an individual power more than once.</p>
+          <p>Any barbarian who meets the powers’ prerequisites can select and use rage powers. Totem rage powers grant powers related to a theme. A barbarian cannot select from more than one group of totem rage powers; for example, a barbarian who selects a beast totem rage power cannot later choose to gain any of the dragon totem rage powers (any rage power with “dragon totem” in its title).</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Attribute</Type>
+            <Mode>LevelTable</Mode>
+            <LevelTable>
+              <t Level="1" Property="ClassPowerCount" Action="Addition" Value="0"/>
+              <t Level="2" Property="ClassPowerCount" Action="Addition" Value="1"/>
+              <t Level="3" Property="ClassPowerCount" Action="Addition" Value="1"/>
+              <t Level="4" Property="ClassPowerCount" Action="Addition" Value="2"/>
+              <t Level="5" Property="ClassPowerCount" Action="Addition" Value="2"/>
+              <t Level="6" Property="ClassPowerCount" Action="Addition" Value="3"/>
+              <t Level="7" Property="ClassPowerCount" Action="Addition" Value="3"/>
+              <t Level="8" Property="ClassPowerCount" Action="Addition" Value="4"/>
+              <t Level="9" Property="ClassPowerCount" Action="Addition" Value="4"/>
+              <t Level="10" Property="ClassPowerCount" Action="Addition" Value="5"/>
+              <t Level="11" Property="ClassPowerCount" Action="Addition" Value="5"/>
+              <t Level="12" Property="ClassPowerCount" Action="Addition" Value="6"/>
+              <t Level="13" Property="ClassPowerCount" Action="Addition" Value="6"/>
+              <t Level="14" Property="ClassPowerCount" Action="Addition" Value="7"/>
+              <t Level="15" Property="ClassPowerCount" Action="Addition" Value="7"/>
+              <t Level="16" Property="ClassPowerCount" Action="Addition" Value="8"/>
+              <t Level="17" Property="ClassPowerCount" Action="Addition" Value="8"/>
+              <t Level="18" Property="ClassPowerCount" Action="Addition" Value="9"/>
+              <t Level="19" Property="ClassPowerCount" Action="Addition" Value="9"/>
+              <t Level="20" Property="ClassPowerCount" Action="Addition" Value="10"/>
+            </LevelTable>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>UncannyDodge</Name>
+        <DisplayName>Uncanny Dodge</DisplayName>
+        <Description>
+          <p>-----Uncanny Dodge-----</p>
+          <p>At 2nd level, a barbarian gains the ability to react to danger before her senses would normally allow her to do so. She cannot be caught flat-footed, nor does she lose her Dex bonus to AC if the attacker is invisible. She still loses her Dexterity bonus to armor class if immobilized. A barbarian with this ability can still lose her Dexterity bonus to armor class if an opponent successfully uses the feint action against her.</p>
+          <p>If a barbarian already has uncanny dodge from a different class, she automatically gains improved uncanny dodge (see below) instead.</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Status</Type>
+            <Mode>Disable</Mode>
+            <Property>Flatfoot</Property>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>TrapSense</Name>
+        <DisplayName>Trap Sense</DisplayName>
+        <Description>
+          <p>-----Trap Sense-----</p>
+          <p>At 3rd level, a barbarian gains a +1 bonus on Reflex saves made to avoid traps and a +1 dodge bonus to armor class against attacks made by traps. These bonuses increase by +1 every three barbarian levels thereafter (6th, 9th, 12th, 15th, and 18th level). Trap sense bonuses gained from multiple classes stack.</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Attribute</Type>
+            <Mode>LevelTable</Mode>
+            <LevelTable>
+              <t Level="1" Property="ReflexSave" Action="Addition" Value="0"/>
+              <t Level="2" Property="ReflexSave" Action="Addition" Value="0"/>
+              <t Level="3" Property="ReflexSave" Action="Addition" Value="1"/>
+              <t Level="4" Property="ReflexSave" Action="Addition" Value="1"/>
+              <t Level="5" Property="ReflexSave" Action="Addition" Value="1"/>
+              <t Level="6" Property="ReflexSave" Action="Addition" Value="2"/>
+              <t Level="7" Property="ReflexSave" Action="Addition" Value="2"/>
+              <t Level="8" Property="ReflexSave" Action="Addition" Value="2"/>
+              <t Level="9" Property="ReflexSave" Action="Addition" Value="3"/>
+              <t Level="10" Property="ReflexSave" Action="Addition" Value="3"/>
+              <t Level="11" Property="ReflexSave" Action="Addition" Value="3"/>
+              <t Level="12" Property="ReflexSave" Action="Addition" Value="4"/>
+              <t Level="13" Property="ReflexSave" Action="Addition" Value="4"/>
+              <t Level="14" Property="ReflexSave" Action="Addition" Value="4"/>
+              <t Level="15" Property="ReflexSave" Action="Addition" Value="5"/>
+              <t Level="16" Property="ReflexSave" Action="Addition" Value="5"/>
+              <t Level="17" Property="ReflexSave" Action="Addition" Value="5"/>
+              <t Level="18" Property="ReflexSave" Action="Addition" Value="6"/>
+              <t Level="19" Property="ReflexSave" Action="Addition" Value="6"/>
+              <t Level="20" Property="ReflexSave" Action="Addition" Value="6"/>
+            </LevelTable>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>ImprovedUncannyDodge</Name>
+        <DisplayName>Improved Uncanny Dodge</DisplayName>
+        <Description>
+          <p>-----Improved Uncanny Dodge-----</p>
+          <p>At 5th level and higher, a barbarian can no longer be flanked. This defense denies a rogue the ability to sneak attack the barbarian by flanking her, unless the attacker has at least four more rogue levels than the target has barbarian levels.</p>
+          <p>If a character already has uncanny dodge (see above) from another class, the levels from the classes that grant uncanny dodge stack to determine the minimum rogue level required to flank the character.</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Status</Type>
+            <Mode>Disable</Mode>
+            <Property>Flanked</Property>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>DamageReduction</Name>
+        <DisplayName>Damage Reduction</DisplayName>
+        <Description>
+          <p>-----Damage Reduction-----</p>
+          <p>At 7th level, a barbarian gains damage reduction. Subtract 1 from the damage the barbarian takes each time she is dealt damage from a weapon or a natural attack. At 10th level, and every three barbarian levels thereafter (13th, 16th, and 19th level), this damage reduction rises by 1 point. Damage reduction can reduce damage to 0 but not below 0.</p>
+        </Description>
+        <Modifications>
+          <Modification>
+            <Type>Attribute</Type>
+            <Mode>LevelTable</Mode>
+            <LevelTable>
+              <t Level="1" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="2" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="3" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="4" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="5" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="6" Property="DamageReduction" Action="Addition" Value="0"/>
+              <t Level="7" Property="DamageReduction" Action="Addition" Value="1"/>
+              <t Level="8" Property="DamageReduction" Action="Addition" Value="1"/>
+              <t Level="9" Property="DamageReduction" Action="Addition" Value="1"/>
+              <t Level="10" Property="DamageReduction" Action="Addition" Value="2"/>
+              <t Level="11" Property="DamageReduction" Action="Addition" Value="2"/>
+              <t Level="12" Property="DamageReduction" Action="Addition" Value="2"/>
+              <t Level="13" Property="DamageReduction" Action="Addition" Value="3"/>
+              <t Level="14" Property="DamageReduction" Action="Addition" Value="3"/>
+              <t Level="15" Property="DamageReduction" Action="Addition" Value="3"/>
+              <t Level="16" Property="DamageReduction" Action="Addition" Value="4"/>
+              <t Level="17" Property="DamageReduction" Action="Addition" Value="4"/>
+              <t Level="18" Property="DamageReduction" Action="Addition" Value="4"/>
+              <t Level="19" Property="DamageReduction" Action="Addition" Value="5"/>
+              <t Level="20" Property="DamageReduction" Action="Addition" Value="5"/>
+            </LevelTable>
+          </Modification>
+        </Modifications>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>GreaterRage</Name>
+        <DisplayName>Greater Rage</DisplayName>
+        <Description>
+          <p>-----Greater Rage-----</p>
+          <p>At 11th level, when a barbarian enters rage, the morale bonus to her Strength and Constitution increases to +6 and the morale bonus on her Will saves increases to +3.</p>
+        </Description>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>IndomitableWill</Name>
+        <DisplayName>Indomitable Will</DisplayName>
+        <Description>
+          <p>-----Indomitable Will-----</p>
+          <p>While in rage, a barbarian of 14th level or higher gains a +4 bonus on Will saves to resist enchantment spells. This bonus stacks with all other modifiers, including the morale bonus on Will saves she also receives during her rage.</p>
+        </Description>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>TirelessRage</Name>
+        <DisplayName>Tireless Rage</DisplayName>
+        <Description>
+          <p>-----Tireless Rage-----</p>
+          <p>Starting at 17th level, a barbarian no longer becomes fatigued at the end of her rage.</p>
+        </Description>
+      </ClassFeature>
+      <ClassFeature>
+        <Name>MightyRage</Name>
+        <DisplayName>Mighty Rage</DisplayName>
+        <Description>
+          <p>-----Mighty Rage-----</p>
+          <p>At 20th level, when a barbarian enters rage, the morale bonus to her Strength and Constitution increases to +8 and the morale bonus on her Will saves increases to +4.</p>
+        </Description>
+      </ClassFeature>
+    </ClassFeatures>
+  </Class>
+</Classes>

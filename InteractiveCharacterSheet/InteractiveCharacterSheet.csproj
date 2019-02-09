@@ -122,6 +122,9 @@
   <ItemGroup>
     <Resource Include="XMLDataSheets\XMLPropertyReferenceGuide.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLDataSheets\Classes\Barbarian.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo d | XCOPY "$(ProjectDir)XMLDataSheets" "$(TargetDir)XMLDataSheets" /S /Y /C</PostBuildEvent>
