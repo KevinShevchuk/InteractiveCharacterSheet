@@ -97,6 +97,8 @@ namespace InteractiveCharacterSheet
             return csd;
         }
 
+        #region Skills
+
         public ObservableCollection<CharacterSkill> LoadSkills()
         {
             ObservableCollection<CharacterSkill> skills = new ObservableCollection<CharacterSkill>();
@@ -128,56 +130,6 @@ namespace InteractiveCharacterSheet
 
             return skills;
         }
-
-        public HashSet<Race> LoadRaces()
-        {
-            HashSet<Race> races = new HashSet<Race>();
-            try
-            {
-                string[] filenames = Directory.GetFiles(_directoryRoot + "XMLDataSheets\\Races\\");
-                for (int i = 0; i < filenames.Length; i++)
-                {
-                    using (XmlReader reader = XmlReader.Create(filenames[i]))
-                    {
-                        reader.MoveToContent();
-                        while (reader.Read())
-                        {
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                if (reader.Name == "Race")
-                                {
-                                    XElement el = XNode.ReadFrom(reader) as XElement;
-                                    if (el != null)
-                                    {
-                                        races.Add(LoadRace(el));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                new Error(ex.Message);
-            }
-
-            return races;
-        }
-
-        //private string LoadLanguages(XmlReader inner)
-        //{
-        //    string languages = "";
-
-        //    inner.ReadToFollowing("Language");
-        //    while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
-        //    {
-        //        languages += inner.ReadElementContentAsString() + ", ";
-        //    }
-        //    return languages.Substring(0, languages.Length - 2);
-        //}
-
-        #region "Support Functions"
 
         private CharacterSkill LoadSkill(XElement el)
         {
@@ -216,9 +168,49 @@ namespace InteractiveCharacterSheet
             return skill;
         }
 
-        private Race LoadRace(XElement el)
+        #endregion
+
+        #region Races
+
+        public HashSet<CharacterRace> LoadRaces()
         {
-            Race race = new Race();
+            HashSet<CharacterRace> races = new HashSet<CharacterRace>();
+            try
+            {
+                string[] filenames = Directory.GetFiles(_directoryRoot + "XMLDataSheets\\Races\\");
+                for (int i = 0; i < filenames.Length; i++)
+                {
+                    using (XmlReader reader = XmlReader.Create(filenames[i]))
+                    {
+                        reader.MoveToContent();
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                if (reader.Name == "Race")
+                                {
+                                    XElement el = XNode.ReadFrom(reader) as XElement;
+                                    if (el != null)
+                                    {
+                                        races.Add(LoadRace(el));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                new Error(ex.Message);
+            }
+
+            return races;
+        }
+
+        private CharacterRace LoadRace(XElement el)
+        {
+            CharacterRace race = new CharacterRace();
             IEnumerable<XElement> nodes = el.Descendants();
             foreach (XElement xe in nodes)
             {
@@ -259,7 +251,7 @@ namespace InteractiveCharacterSheet
             IEnumerable<XElement> nodes = el.Descendants();
             foreach (XElement xe in nodes)
             {
-                if(xe.NodeType == XmlNodeType.Element && xe.Name == "Trait")
+                if (xe.NodeType == XmlNodeType.Element && xe.Name == "Trait")
                     traits.Add(LoadRacialTrait(xe));
             }
             return traits;
@@ -293,6 +285,67 @@ namespace InteractiveCharacterSheet
             }
             return trait;
         }
+
+        #endregion
+
+        #region Classes
+
+        public HashSet<CharacterClass> LoadClasses()
+        {
+            HashSet<CharacterClass> classes = new HashSet<CharacterClass>();
+            try
+            {
+                string[] filenames = Directory.GetFiles(_directoryRoot + "XMLDataSheets\\Races\\");
+                for (int i = 0; i < filenames.Length; i++)
+                {
+                    using (XmlReader reader = XmlReader.Create(filenames[i]))
+                    {
+                        reader.MoveToContent();
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == XmlNodeType.Element)
+                            {
+                                if (reader.Name == "Race")
+                                {
+                                    XElement el = XNode.ReadFrom(reader) as XElement;
+                                    if (el != null)
+                                    {
+                                        classes.Add(LoadClass(el));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                new Error(ex.Message);
+            }
+
+            return classes;
+        }
+
+        private CharacterClass LoadClass(XElement el)
+        {
+            return null;
+        }
+
+        #endregion
+
+        //private string LoadLanguages(XmlReader inner)
+        //{
+        //    string languages = "";
+
+        //    inner.ReadToFollowing("Language");
+        //    while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
+        //    {
+        //        languages += inner.ReadElementContentAsString() + ", ";
+        //    }
+        //    return languages.Substring(0, languages.Length - 2);
+        //}
+
+        #region Support Functions
 
         private List<CharacterModification> LoadModifications(XElement el)
         {
@@ -372,8 +425,8 @@ namespace InteractiveCharacterSheet
                 }
             }
             return lt;
-
         }
+
         private List<Paragraph> TextBlocktoParagraphs(XmlReader inner)
         {
             List<Paragraph> paragraphs = new List<Paragraph>();

@@ -117,46 +117,51 @@ namespace InteractiveCharacterSheet
 
     class CharacterClass
     {
-        private string _className;
-        private string _classDisplayName;
-        private DieSize _hitDicePerLevel;
-        private List<CharacterSkill> _classSkills;
-        private int _skillRanksPerLevel;
+        public string ClassName { get; set; }
+        public string ClassDisplayName { get; set; }
+        public DieSize HitDicePerLevel { get; set; }
+        public int SkillRanksPerLevel { get; set; }
+        internal List<CharacterSkill> ClassSkills { get; set; }
+        internal List<ClassLevel> ClassLevelTable { get; set; }
+        internal List<string> TrainedSkills { get; set; }
+        internal List<string> Proficencies { get; set; }
+        internal List<string> AlignmentRestrictions { get; set; }
     }
 
     class ClassFeature
     {
-        private string _featureName;
-        private string _featureDisplayName;
-        private bool hasLimitedUses;
-        private int _usesPerDay;
-        private List<Paragraph> _description;
+        public string FeatureName { get; set; }
+        public string FeatureDisplayName { get; set; }
+        public bool HasLimitedUses { get; set; }
+        public int UsesPerDay { get; set; }
+        public List<Paragraph> Description { get; set; }
+        public List<CharacterModification> Modifications { get; set; }
     }
 
     class ClassLevel
     {
-        private int _level;
-        private int _baseAttackBonus;
-        private int _fortitudeSave;
-        private int _reflexSave;
-        private int _willSave;
-        private List<ClassFeature> _special;
-        private int _l1Spells;
-        private int _l2Spells;
-        private int _l3Spells;
-        private int _l4Spells;
-        private int _l5Spells;
-        private int _l6Spells;
-        private int _l7Spells;
-        private int _l8Spells;
-        private int _l9Spells;
+        public int Level { get; set; }
+        public int BaseAttackBonus { get; set; }
+        public int FortitudeSave { get; set; }
+        public int ReflexSave { get; set; }
+        public int WillSave { get; set; }
+        public int L1Spells { get; set; }
+        public int L2Spells { get; set; }
+        public int L3Spells { get; set; }
+        public int L4Spells { get; set; }
+        public int L5Spells { get; set; }
+        public int L6Spells { get; set; }
+        public int L7Spells { get; set; }
+        public int L8Spells { get; set; }
+        public int L9Spells { get; set; }
+        internal List<ClassFeature> Special { get; set; }
     }
 
     #endregion
 
     #region Races
 
-    class Race
+    class CharacterRace
     {
         public string RaceName { get; set; }
         public string RaceDisplayName { get; set; }

@@ -2,37 +2,63 @@
 
 ==========Races==========
 -----Name-----
-	The internal name of the race.
+	The internal name of the race. Must be unique. Cannot contain spaces or symbols.
+
+	Required.
 
 -----DisplayName-----
 	A formatted name of the race used for display. Can have spaces and symbols in it.
 
+	Required.
+
 -----Size-----
 	The standard size of the race. the value must match the size name in the Size list.
 
+	Required.
+
 	Available Values:
-		
+		Fine,
+		Diminutive,
+		Tiny,
+		Small,
+		Medium,
+		LargeTall,
+		LargeLong,
+		HugeTall,
+		HugeLong,
+		GargantuanTall,
+		GargantuanLong,
+		ColossalTall,
+		ColossalLong,
 
 -----BaseSpeed-----
 	The base movement speed of the race.
+
+	Required.
 
 	Available Values:
 		Integer.
 
 -----BaseSwimSpeed-----
+	The base movement speed of the race while moving in water.
+
 	Optional. Some races do not have a listed base swim speed.
 
 	Available Values:
 		Integer.
 
 -----BaseFlySpeed-----
+	The base movement speed of the race while flying.
+
 	Optional. Some races do not have a listed base fly speed.
 
 	Available Values:
 		Integer.
 
 -----Languages-----
-	Encapsulates Language tags containing languages.
+	A list of languages known by the race by default. Surround 
+
+	Optional.
 
 -----RacialTraits-----
 	See: Trait
@@ -56,6 +82,8 @@
 -----Type-----
 	What set of properties on the character the Modification is applied to.
 
+	Required.
+
 	Available Values:
 		AbilityScore
 		Attribute
@@ -63,20 +91,35 @@
 		Size
 
 -----Mode-----
-	Optional
-
 	Specifies whether the modification has special rules
+
+	Optional.
 
 	Available Values:
 		PlayerChoice (Player Chooses on selection, selection stored in character xml.)
+		LevelTable (One row for each level, current level row is used.)
 
 -----Options----
-	Only used with PlayerChoice Mode
-	Specifies multiple options fort he player to choose from.
+	Specifies multiple options for the player to choose from.
 	Values must come from the specified Type.
+
+	Required if the Mode is set to player choice.
+
+-----Property-----
+	The character property to apply the modification to. Must be a member of whatever is specified for the Type property.
+
+	Required unless LevelTable or PlayerChoice is chosen for Mode.
+
+	Available Values:
+		Any string from the skills list if Skill is the Type.
+		Any string from the Ability scores list if AbilityScore is the Type.
+		Any String from the Attribute list if Attribute is the Type.
+		Any String from the size list if size is the type.
 
 -----Action-----
 	The mathematical operation to perform on that property.
+
+	Required if Mode is not LevelTable.
 
 	Available Values:
 		Addition (Default)
@@ -84,8 +127,15 @@
 		Multiply
 		Divide
 
+-----Value-----
+	the value of the property.
+
+	Required unless Mode is levelTable.
+
 -----DieSize-----
 	When paired with a value in the Value property, The Value Property refers to quantity of Die to Action on.
+
+	Optional. Specify in LevelTable instead of LevelTable is the Mode.
 
 	Available Values:
 		d3
@@ -96,22 +146,25 @@
 		d12
 		d100
 
------Value-----
-	The value 
-
 ==========LevelTable==========
 	This property uses XML attributes for human readability. Rows have a <t> tag.
 
 -----Level-----
 	The level the value applies to.
 
+	Required.
+
 	Available values:
 		1-20.
 -----Property-----
 	the character property to apply the modification to. Must be a member of whatever is specified for the Type property.
 
+	Required.
+
 -----Action-----
 	The mathematical operation to perform on that property.
+
+	Required.
 
 	Available Values:
 		Add (Default)
@@ -120,13 +173,17 @@
 		Divide
 
 ----Value-----
-	the value to perform the action.
+	the value of the property for the level.
+
+	Required.
 
 	Available Values:
-		Integer,
+		Integer
 
 -----DieSize-----
 	When paired with a value in the Value property, The Value Property refers to quantity of Die to Action on.
+
+	Optional.
 
 	Available Values:
 		d3
@@ -139,7 +196,10 @@
 
 ==========Skills==========
 -----Name-----
-	The internal name of the skill in the SkillNames enumeration. Must be in the enumeration. Cannot have spaces or symbols. 
+	The internal name of the skill in the SkillNames enumeration. Must be in the enumeration. Cannot have spaces or symbols.
+
+	Required. 
+
 	Available values:
 		Acrobatics,
 		Appraise,
@@ -229,8 +289,12 @@
 -----DisplayName-----
 	A formatted name of the skill used for display. Can have spaces and symbols in it.
 
+	Required. 
+
 -----GoverningAbilityScore-----
 	Ability score that affects the calculation of the skill value. Must be a member of the AbilityScores enumeration.
+
+	Required.
 
 	Available values:
 		Constitution,
@@ -243,11 +307,15 @@
 -----AppliesArmorCheckPenalty-----
 	Whether the Attribute ArmorPenalty is applied to the skill for skill checks. Generally only physical skills have this set.
 	
+	Required.
+
 	Available Values:
 		0 or 1.
 
 -----TrainedOnly-----
 	Whether the skill can only have points put into it if it is a trained skill from a class.
+
+	Required.
 
 	Available Values:
 		0 or 1.
@@ -255,14 +323,70 @@
 -----IsCraftSkill-----
 	Whether the skill is a craft skill.
 
+	Required.
+
 	Available Values:
 		0 or 1.
 
 -----IsProfession-----
 	Whether the skill is a profession skill.
 
+	Required.
+
 	Available Values:
 		0 or 1.
 
 -----Description-----
 	A long text description of the skill. Wrap new paragraphs in a <p><p/> tag. These translate to new text blocks in the description.
+
+==========Classes===========
+-----Name-----
+	The internal name of the class. Must be unique. Cannot contain spaces or symbols.
+	
+	Required. 
+
+-----DisplayName-----
+	A formatted name of the class used for display. Can have spaces and symbols in it.
+
+	Required.
+
+-----BaseSkillRanks-----
+	The number of base skill points gained per level this class is taken.
+
+	Required.
+
+-----TrainedSkills-----
+	A list of the skills that are considered trained when the character takes a level in this class. Wrap individual entries in a <Skill> tag.
+
+	Required.
+
+	Available Values:
+		Any skill in the skill list that isn't a profession skill.
+
+-----Proficiencies-----
+	A list of the proficiencies that this class grants. Wrap individual entries in <Proficiency> tags.
+
+	Optional.
+
+	Available Values:
+		Specific Weapons via the weapon name.
+		SimpleWeapons
+		MartialWeapons
+		LightArmor
+		MediumArmor
+		HeavyArmor
+		Shields
+		TowerShields
+
+-----RestrictedAlignments-----
+	A list of the Alignments that the character cannot be to take a level in this class. Wrap each entry in an <Alignment> tag.
+
+	Optional.
+
+	Available Values:
+		Any value listed in the alignment list.
+
+-----Description-----
+	A long text description of the skill. Wrap new paragraphs in a <p><p/> tag. These translate to new text blocks in the description.
+
+	Optional. 

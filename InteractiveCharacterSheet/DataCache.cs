@@ -12,16 +12,18 @@ namespace InteractiveCharacterSheet
         private XMLManager XManager;
         public List<string> Alignments;
         public List<string> Genders;
-        public HashSet<Race> Races;
+        public HashSet<CharacterRace> Races;
+        public HashSet<CharacterClass> Classes;
         public ObservableCollection<CharacterSkill> Skills;
 
         public DataCache()
         {
-            this.XManager = new XMLManager();
+            XManager = new XMLManager();
             LoadAlignments();
             LoadGenders();
             LoadSkills();
             LoadRaces();
+            //LoadClasses();
         }
 
         private void LoadAlignments()
@@ -36,7 +38,7 @@ namespace InteractiveCharacterSheet
             alignments.Add("Chaotic Good");
             alignments.Add("Chaotic Neutral");
             alignments.Add("Chaotic Evil");
-            this.Alignments = alignments;
+            Alignments = alignments;
         }
 
         private void LoadGenders()
@@ -45,17 +47,22 @@ namespace InteractiveCharacterSheet
             genders.Add("Female");
             genders.Add("Male");
             genders.Add("Other");
-            this.Genders = genders;
+            Genders = genders;
         }
 
         private void LoadSkills()
         {
-            this.Skills = XManager.LoadSkills();
+            Skills = XManager.LoadSkills();
         }
 
         private void LoadRaces()
         {
-            this.Races = XManager.LoadRaces();
+            Races = XManager.LoadRaces();
+        }
+
+        private void LoadClasses()
+        {
+            Classes = XManager.LoadClasses();
         }
     }
 }
