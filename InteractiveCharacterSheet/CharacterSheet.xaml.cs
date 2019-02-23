@@ -126,6 +126,7 @@ namespace InteractiveCharacterSheet
         {
             AlignmentComboBox.ItemsSource = CharSheetPresenter.DCache.Alignments;
             GenderComboBox.ItemsSource = CharSheetPresenter.DCache.Genders;
+            SizeComboBox.ItemsSource = CharSheetPresenter.DCache.Sizes;
             RaceDescriptionText.IsReadOnly = true;
             LoadCharacterControls();
         }
@@ -140,7 +141,7 @@ namespace InteractiveCharacterSheet
             CharacterNameTextBox.Text = CharSheetPresenter.CharSheetData.CharacterName;
             PlayerNameTextBox.Text = CharSheetPresenter.CharSheetData.PlayerName;
             RaceTextBox.Text = CharSheetPresenter.CharSheetData.Race;
-            SizeTextBox.Text = CharSheetPresenter.CharSheetData.Size;
+            SizeComboBox.SelectedItem = CharSheetPresenter.CharSheetData.Size;
             GenderComboBox.SelectedItem = CharSheetPresenter.CharSheetData.Gender;
             HeightTextBox.Text = CharSheetPresenter.CharSheetData.Height.ToString();
             WeightTextBox.Text = CharSheetPresenter.CharSheetData.Weight.ToString();
@@ -194,15 +195,15 @@ namespace InteractiveCharacterSheet
         {
             if (_isloading == false)
             {
-                CharSheetPresenter.CharSheetData.Gender = (string)(GenderComboBox.SelectedItem);
+                CharSheetPresenter.CharSheetData.Gender = (string)GenderComboBox.SelectedItem;
             }
         }
 
-        private void SizeTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void SizeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (_isloading == false)
             {
-                CharSheetPresenter.CharSheetData.Size = SizeTextBox.Text;
+                CharSheetPresenter.CharSheetData.Size = (string)SizeComboBox.SelectedItem;
             }
         }
 

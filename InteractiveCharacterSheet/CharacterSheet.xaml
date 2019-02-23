@@ -102,7 +102,7 @@
                             <Label Name="GenderLabel" Content="Gender:" Grid.Column="5" Grid.Row="2" Margin="5,5,5,5"/>
                             <ComboBox Name="GenderComboBox" Grid.Column="6" Grid.Row="2" Margin="5,5,5,5" SelectionChanged="GenderComboBox_SelectionChanged"/>
                             <Label Name="SizeLabel" Content="Size:" Grid.Column="7" Grid.Row="2" Grid.ColumnSpan="1" Margin="5,5,5,5"/>
-                            <TextBox Name="SizeTextBox" Grid.Column="8" Grid.Row="2" Margin="5,5,5,5" TextWrapping="Wrap" TextChanged="SizeTextBox_TextChanged"/>
+                            <ComboBox Name="SizeComboBox" Grid.Column="8" Grid.Row="2" Margin="5,5,5,5" SelectionChanged="SizeComboBox_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.DataCache.Sizes}" DisplayMemberPath="DisplayName"/>
                             <Label Name="HeightLabel" Content="Height (inches):" Grid.Column="5" Grid.Row="3" Margin="5,5,5,5"/>
                             <TextBox Name="HeightTextBox" Grid.Column="6" Grid.Row="3" Margin="5,5,5,5" TextWrapping="Wrap" TextChanged="HeightTextBox_TextChanged" Text="{Binding Path=MyValue, Mode=TwoWay, StringFormat={}{0:F2}}"/>
                             <Label Name="WeightLabel" Content="Weight (lbs):" Grid.Column="7" Grid.Row="3" Margin="5,5,5,5"/>
@@ -110,7 +110,7 @@
                             <Label Name="AgeLabel" Content="Age:" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Margin="5,5,5,5"/>
                             <TextBox Name="AgeTextBox" Grid.Column="2" Grid.Row="3" Margin="5,5,5,5" TextWrapping="Wrap" TextChanged="AgeTextBox_TextChanged"/>
                             <Label Name="AlignmentLabel" Content="Alignment:" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Margin="5,5,5,5"/>
-                            <ComboBox Name="AlignmentComboBox" Grid.Column="4" Grid.Row="3" Margin="5,5,5,5" SelectionChanged="AlignmentComboBox_SelectionChanged"/>
+                            <ComboBox Name="AlignmentComboBox" Grid.Column="4" Grid.Row="3" Margin="5,5,5,5" SelectionChanged="AlignmentComboBox_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.DataCache.Alignments}" DisplayMemberPath="DisplayName"/>
                             <Label Name="DeityLabel" Content="Deity:" Grid.Column="1" Grid.Row="4" Margin="5,5,5,5"/>
                             <TextBox Name="DeityTextBox" Grid.Column="2" Grid.Row="4" Margin="5,5,5,5" TextWrapping="Wrap" TextChanged="DeityTextBox_TextChanged"/>
                             <Label Name="OccupationLabel" Content="Occupation:" Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" Margin="5,5,5,5"/>
@@ -137,17 +137,25 @@
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Name="InventoryTab" Header="Inventory">
-                    <ScrollViewer Name="InventoryScrollViewer" Margin="0,0,0,0">
-                        <Grid Name ="InventoryGrid" Background="#FFE5E5E5">
-
-                        </Grid>
-                    </ScrollViewer>
-                </TabItem>
                 <TabItem Name="CombatTab" Header="Combat">
                     <ScrollViewer Name="CombatScrollViewer" Margin="0,0,0,0">
                         <Grid Name="CombatGrid" Background="#FFE5E5E5">
 
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Name="InventoryTab" Header="Inventory">
+                    <ScrollViewer Name="InventoryScrollViewer" Margin="0,0,0,0">
+                        <Grid Name ="InventoryGrid" Background="#FFE5E5E5">
+                            <DataGrid Name="InventoryDataGrid" Margin="5,5,5,5" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="SkillsDataGrid_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.CharSheetData.Inventory}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" IsReadOnly="True" Binding="{Binding RowItem.DisplayName}"/>
+                                    <DataGridTextColumn Header="Slot" IsReadOnly="True" Binding="{Binding RowItem.Slot}"/>
+                                    <DataGridTextColumn Header="Unit Weight" IsReadOnly="True" Binding="{Binding RowItem.Weight}"/>
+                                    <DataGridTextColumn Header="Quantity" IsReadOnly="True" Binding="{Binding Quantity}"/>
+                                    <DataGridTextColumn Header="Total Weight" IsReadOnly="True" Binding="{Binding Weight}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>

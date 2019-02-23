@@ -35,6 +35,7 @@ namespace InteractiveCharacterSheet
         internal CharacterAbilityScore Wisdom { get; set; } = new CharacterAbilityScore();
         internal CharacterAbilityScore Charisma { get; set; } = new CharacterAbilityScore();
         public ObservableCollection<CharacterSkill> Skills { get; set; }
+        public ObservableCollection<InventoryRow> Inventory { get; set; }
 
         public CharacterSheetData()
         {

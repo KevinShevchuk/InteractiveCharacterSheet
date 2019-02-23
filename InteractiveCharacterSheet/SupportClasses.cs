@@ -206,19 +206,23 @@ namespace InteractiveCharacterSheet
 
     #endregion
 
+    #region Character
+
     class CharacterSize
     {
-        public string Size { get; }
-        public int SizeModifier { get; }
-        public int SpecialSizeModifier { get; }
-        public int SizeModifierFly { get; }
-        public int SizeModifierStealth { get; }
-        public int Space { get; }
-        public int NaturalReach { get; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public int SizeModifier { get; set; }
+        public int SpecialSizeModifier { get; set; }
+        public int SizeModifierFly { get; set; }
+        public int SizeModifierStealth { get; set; }
+        public double Space { get; set; }
+        public int NaturalReach { get; set; }
 
-        public CharacterSize(string size, int sizeModifier, int specialSizeModifier, int sizeModifierFly, int sizeModifierStealth, int space, int naturalReach)
+        public CharacterSize(string size, string display, int sizeModifier, int specialSizeModifier, int sizeModifierFly, int sizeModifierStealth, double space, int naturalReach)
         {
-            Size = size;
+            Name = size;
+            DisplayName = display;
             SizeModifier = sizeModifier;
             SpecialSizeModifier = specialSizeModifier;
             SizeModifierFly = sizeModifierFly;
@@ -227,6 +231,67 @@ namespace InteractiveCharacterSheet
             NaturalReach = naturalReach;
         }
     }
+
+    class Alignment
+    {
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+
+        public Alignment(string name, string displayName)
+        {
+            Name = name;
+            DisplayName = displayName;
+        }
+    }
+
+    #endregion
+
+    #region Inventory
+
+    public enum EquipmentType
+    {
+        OneHandedWeapon,
+        TwoHandedWeapon,
+        RangedWeapon,
+        Shield,
+        Shirt,
+        ChestArmor,
+        Bracers,
+        Gloves,
+        Boots,
+        Ring,
+        Neck,
+        Helm,
+        Belt,
+        Slotless,        
+    }
+
+    class InventoryRow
+    {
+
+        private double _rowWeight;
+
+        public Item RowItem { get; set; }
+        public int Quantity { get; set; }
+        public double Weight
+        {
+            get => _rowWeight;
+            set
+            {
+                _rowWeight = System.Math.Round(Quantity * RowItem.Weight, 2);
+            }
+        }
+    }
+
+    class Item
+    {
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public EquipmentType EquipmentType { get; set; }
+        public double Weight { get; set; }
+    }
+
+    #endregion
 
     #region Modifications
 
