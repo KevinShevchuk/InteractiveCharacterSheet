@@ -140,7 +140,93 @@
                 <TabItem Name="CombatTab" Header="Combat">
                     <ScrollViewer Name="CombatScrollViewer" Margin="0,0,0,0">
                         <Grid Name="CombatGrid" Background="#FFE5E5E5">
-
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="5"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="118*"/>
+                                <ColumnDefinition Width="5"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Name="StrengthLabel" Content="Strength" Grid.Column="1" Margin="5" Grid.Row="2"/>
+                            <Label Name="DexterityLabel" Content="Dexterity" Grid.Column="1" Margin="5" Grid.Row="3"/>
+                            <Label Name="ConstitutionLabel" Content="Constitution" Grid.Column="1" Margin="5" Grid.Row="4"/>
+                            <Label Name="IntelligenceLabel" Content="Intelligence" Grid.Column="1" Margin="5" Grid.Row="5"/>
+                            <Label Name="WisdomLabel" Content="Wisdom" Grid.Column="1" Margin="5" Grid.Row="6"/>
+                            <Label Name="CharismaLabel" Content="Charisma" Grid.Column="1" Margin="5" Grid.Row="7"/>
+                            <Label Name="AbilityScoreTotalLabel" Content="Total" Grid.Column="2" Margin="5" Grid.Row="1"/>
+                            <Label Name="AbilityScoreModLabel" Content="Mod" Grid.Column="3" Margin="5" Grid.Row="1"/>
+                            <Label Name="AbilityScoreBaseLabel" Content="Base" Grid.Column="4" Margin="5" Grid.Row="1"/>
+                            <Label Name="AbilityScoreBonusesLabel" Content="Bonus" Grid.Column="5" Margin="5" Grid.Row="1"/>
+                            <TextBox Name="StrengthTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="DexterityTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="ConstitutionTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="IntelligenceTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="WisdomTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="6"/>
+                            <TextBox Name="CharismaTotalTextBox" Text="0" Grid.Column="2" Margin="5" Grid.Row="7"/>
+                            <TextBox Name="StrengthModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="DexterityModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="ConstitutionModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="IntelligenceModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="WisdomModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="6"/>
+                            <TextBox Name="CharismaModTextBox" Text="0" Grid.Column="3" Margin="5" Grid.Row="7"/>
+                            <TextBox Name="StrengthBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="DexterityBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="ConstitutionBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="IntelligenceBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="WisdomBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="6"/>
+                            <TextBox Name="CharismaBaseTextBox" Text="0" Grid.Column="4" Margin="5" Grid.Row="7"/>
+                            <TextBox Name="StrengthBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="DexterityBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="ConstitutionBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="IntelligenceBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="WisdomBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="6"/>
+                            <TextBox Name="CharismaBonusTextBox" Text="0" Grid.Column="5" Margin="5" Grid.Row="7"/>
+                            <Label Name="ArmorClassLabel" Content="Armor Class" Grid.Column="7" Margin="5" Grid.Row="2"/>
+                            <Label Name="TouchArmorClassLabel" Content="Touch AC" Grid.Column="7" Margin="5" Grid.Row="3"/>
+                            <Label Name="FlatFootArmorClassLabel" Content="Flatfoot AC" Grid.Column="7" Margin="5" Grid.Row="4"/>
+                            <Label Name="FortitudeSaveLabel" Content="Fortitude" Grid.Column="7" Margin="5" Grid.Row="5"/>
+                            <Label Name="ReflexSaveLabel" Content="Reflex" Grid.Column="7" Margin="5" Grid.Row="6"/>
+                            <Label Name="WillSaveLabel" Content="Will" Grid.Column="7" Margin="5" Grid.Row="7"/>
+                            <TextBox Name="ArmorClassTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="TouchArmorClassTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="FlatfootArmorClassTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="FortitudeSaveTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="ReflexSaveTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="6"/>
+                            <TextBox Name="WillSaveTextBox" Text="0" Grid.Column="8" Margin="5" Grid.Row="7"/>
+                            <Label Name="ACTotalLabel" Content="Total" Grid.Column="8" Margin="5" Grid.Row="1"/>
+                            <Label Name="MeleeAttackModifierLabel" Content="Melee Attack Mod" Grid.Column="10" Margin="5" Grid.Row="2"/>
+                            <Label Name="RangedAttackModifierLabel" Content="Ranged Attack Mod" Grid.Column="10" Margin="5" Grid.Row="3"/>
+                            <Label Name="CMBLabl" Content="Maneuver Bonus" Grid.Column="10" Margin="5" Grid.Row="4"/>
+                            <Label Name="CMDLabel" Content="Maneuver Defense" Grid.Column="10" Margin="5" Grid.Row="5"/>
+                            <TextBox Name="MeleeAttackModifierTextBox" Text="0" Grid.Column="11" Margin="5" Grid.Row="2"/>
+                            <TextBox Name="RangedAttackModifierTextBox" Text="0" Grid.Column="11" Margin="5" Grid.Row="3"/>
+                            <TextBox Name="CMBTextBox" Text="0" Grid.Column="11" Margin="5" Grid.Row="4"/>
+                            <TextBox Name="CMDTextBox" Text="0" Grid.Column="11" Margin="5" Grid.Row="5"/>
+                            <Label Name="AttackTotalLabel" Content="Total" Grid.Column="11" Margin="5" Grid.Row="1"/>
+                            <Label Name="SpellFailureLabel" Content="Spell Failure" Grid.Column="10" Margin="5" Grid.Row="7"/>
+                            <TextBox Name="SpellFailureTextBox" Text="0" Grid.Column="11" Margin="5" Grid.Row="7"/>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
