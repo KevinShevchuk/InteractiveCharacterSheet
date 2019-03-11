@@ -261,11 +261,27 @@
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Name="FeatsAndTraitsTab" Header="Feats and Traits">
-                    <ScrollViewer Name="FeatsAndTraitsScrollViewer" Margin="0,0,0,0">
-                        <Grid Name="FeatsAndTraitsGrid" Background="#FFE5E5E5">
-
-                        </Grid>
-                    </ScrollViewer>
+                    <Grid Name="FeatsAndTraitsGrid" Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5"/>
+                        <DataGrid Name="TraitsDataGrid" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="SkillsDataGrid_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.CharSheetData.Skills}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Traits" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid Name="FeatsDataGrid" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="SkillsDataGrid_SelectionChanged" ItemsSource="{Binding Source=CharSheetPresenter.CharSheetData.Skills}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Feats" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
                 </TabItem>
                 <TabItem Name="SpellsAndPowersTab" Header="Spells and Powers">
                     <ScrollViewer Name="SpellsAndPowersScrollViewer" Margin="0,0,0,0">
