@@ -99,6 +99,15 @@ namespace InteractiveCharacterSheet
 
     #region Feats
 
+    class CharacterFeat
+    {
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public List<Paragraph> Description { get; set; }
+        internal List<Restriction> Restrictions { get; set; }
+        internal List<CharacterModification> Modifications { get; set; }
+    }
+
     #endregion
 
     #region Classes
@@ -201,6 +210,7 @@ namespace InteractiveCharacterSheet
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public List<Paragraph> Description { get; set; }
+        internal List<Restriction> Restrictions { get; set; }
         internal List<CharacterModification> Modifications { get; set; }
     }
 
@@ -289,6 +299,7 @@ namespace InteractiveCharacterSheet
         public string DisplayName { get; set; }
         public EquipmentType EquipmentType { get; set; }
         public double Weight { get; set; }
+        public List<Paragraph> Description { get; set; }
     }
 
     #endregion
@@ -597,6 +608,13 @@ namespace InteractiveCharacterSheet
         public ModificationAction ModAction { get; set; }
         public double Value { get; set; }
         public DieSize DieSize { get; set; } = DieSize.None;
+    }
+
+    class Restriction
+    {
+        public string Property { get; set; }
+        public ModificationAction ModAction { get; set; }
+        public double Value { get; set; }
     }
 
     #endregion

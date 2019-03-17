@@ -141,12 +141,12 @@ namespace InteractiveCharacterSheet
             CharacterNameTextBox.Text = CharSheetPresenter.CharSheetData.CharacterName;
             PlayerNameTextBox.Text = CharSheetPresenter.CharSheetData.PlayerName;
             RaceTextBox.Text = CharSheetPresenter.CharSheetData.Race;
-            SizeComboBox.SelectedItem = CharSheetPresenter.CharSheetData.Size;
+            SizeComboBox.SelectedItem = SetSelectedSize();
             GenderComboBox.SelectedItem = CharSheetPresenter.CharSheetData.Gender;
             HeightTextBox.Text = CharSheetPresenter.CharSheetData.Height.ToString();
             WeightTextBox.Text = CharSheetPresenter.CharSheetData.Weight.ToString();
             AgeTextBox.Text = CharSheetPresenter.CharSheetData.Age.ToString();
-            AlignmentComboBox.SelectedItem = CharSheetPresenter.CharSheetData.Alignment;
+            AlignmentComboBox.SelectedItem = SetSelectedAlignment();
             DeityTextBox.Text = CharSheetPresenter.CharSheetData.Deity;
             OccupationTextBox.Text = CharSheetPresenter.CharSheetData.Occupation;
             LanguagesTextBox.Text = CharSheetPresenter.CharSheetData.Languages;
@@ -154,9 +154,29 @@ namespace InteractiveCharacterSheet
             BiographyText.Document.Blocks.AddRange(CharSheetPresenter.CharSheetData.Biography);
         }
 
+        private void LoadCombatControls()
+        {
+            StrengthBaseTextBox.Text = CharSheetPresenter.CharSheetData.Strength.BaseAbilityScoreValue.ToString();
+            DexterityBaseTextBox.Text = CharSheetPresenter.CharSheetData.Dexterity.BaseAbilityScoreValue.ToString();
+            ConstitutionBaseTextBox.Text = CharSheetPresenter.CharSheetData.Constitution.BaseAbilityScoreValue.ToString();
+            IntelligenceBaseTextBox.Text = CharSheetPresenter.CharSheetData.Intelligence.BaseAbilityScoreValue.ToString();
+            WisdomBaseTextBox.Text = CharSheetPresenter.CharSheetData.Wisdom.BaseAbilityScoreValue.ToString();
+            CharismaBaseTextBox.Text = CharSheetPresenter.CharSheetData.Charisma.BaseAbilityScoreValue.ToString();
+        }
+
         private void LoadSkillsDataGrid()
         {
             SkillsDataGrid.ItemsSource = CharSheetPresenter.CharSheetData.Skills;
+        }
+
+        private void LoadTraitsDataGrid()
+        {
+            TraitsDataGrid.ItemsSource = CharSheetPresenter.CharSheetData.Traits;
+        }
+
+        private void LoadFeatsDataGrid()
+        {
+            FeatsDataGrid.ItemsSource = CharSheetPresenter.CharSheetData.Feats;
         }
 
         private void CharacterNameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -262,12 +282,43 @@ namespace InteractiveCharacterSheet
                 CharSheetPresenter.CharSheetData.Languages = LanguagesTextBox.Text;
             }
         }
-
+        
         private void SkillsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CharacterSkill cs = (CharacterSkill)SkillsDataGrid.SelectedItem; //Datagrid bound with ProductItem
+            CharacterSkill cs = (CharacterSkill)SkillsDataGrid.SelectedItem;
             DescriptionTextBox.Document.Blocks.Clear();
             DescriptionTextBox.Document.Blocks.AddRange(cs.Description);
+        }
+
+        private void TraitsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RacialTrait rt = (RacialTrait)TraitsDataGrid.SelectedItem;
+            DescriptionTextBox.Document.Blocks.Clear();
+            DescriptionTextBox.Document.Blocks.AddRange(rt.Description);
+        }
+
+        private void FeatsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CharacterFeat cf = (CharacterFeat)FeatsDataGrid.SelectedItem;
+            DescriptionTextBox.Document.Blocks.Clear();
+            DescriptionTextBox.Document.Blocks.AddRange(cf.Description);
+        }
+
+        private void InventoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            InventoryRow ir = (InventoryRow)InventoryDataGrid.SelectedItem;
+            DescriptionTextBox.Document.Blocks.Clear();
+            DescriptionTextBox.Document.Blocks.AddRange(ir.RowItem.Description);
+        }
+
+        private CharacterSize SetSelectedSize()
+        {
+            return CharSheetPresenter.DCache.Sizes.Find(x => x.Name == CharSheetPresenter.CharSheetData.Size);
+        }
+
+        private Alignment SetSelectedAlignment()
+        {
+            return CharSheetPresenter.DCache.Alignments.Find(x => x.Name == CharSheetPresenter.CharSheetData.Alignment);
         }
 
         #endregion

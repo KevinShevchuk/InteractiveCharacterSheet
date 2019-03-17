@@ -23,32 +23,49 @@ namespace InteractiveCharacterSheet
         {
             try
             {
-                XmlWriter xmlWriter = XmlWriter.Create(inputUrl);
-
-                xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("CharacterSheet");
-
-                xmlWriter.WriteStartElement("Character");
-                xmlWriter.WriteAttributeString("level", csd.Level.ToString());
-                xmlWriter.WriteAttributeString("charactername", csd.CharacterName);
-                xmlWriter.WriteAttributeString("playername", csd.PlayerName);
-                xmlWriter.WriteAttributeString("race", csd.Race);
-                xmlWriter.WriteAttributeString("size", csd.Size);
-                xmlWriter.WriteAttributeString("gender", csd.Gender);
-                xmlWriter.WriteAttributeString("age", csd.Age.ToString());
-                xmlWriter.WriteAttributeString("height", csd.Height.ToString());
-                xmlWriter.WriteAttributeString("weight", csd.Weight.ToString());
-                xmlWriter.WriteAttributeString("alignment", csd.Alignment);
-                xmlWriter.WriteAttributeString("deity", csd.Height.ToString());
-                xmlWriter.WriteAttributeString("occupation", csd.Occupation);
-                xmlWriter.WriteAttributeString("languages", csd.Languages);
-                xmlWriter.WriteAttributeString("biography", ParagraphsToText(csd.Biography));
-                xmlWriter.WriteEndElement(); //Character
-
-                xmlWriter.WriteEndElement(); //CharacterSheet
-
-                xmlWriter.WriteEndDocument();
-                xmlWriter.Close();
+                using (XmlWriter xmlWriter = XmlWriter.Create(inputUrl))
+                {
+                    xmlWriter.WriteStartDocument();
+                    xmlWriter.WriteStartElement("Character");
+                    xmlWriter.WriteElementString("Level", csd.Level.ToString());
+                    xmlWriter.WriteElementString("CharacterName", csd.CharacterName);
+                    xmlWriter.WriteElementString("PlayerName", csd.PlayerName);
+                    xmlWriter.WriteElementString("Race", csd.Race);
+                    xmlWriter.WriteElementString("Size", csd.Size);
+                    xmlWriter.WriteElementString("Gender", csd.Gender);
+                    xmlWriter.WriteElementString("Age", csd.Age.ToString());
+                    xmlWriter.WriteElementString("Height", csd.Height.ToString());
+                    xmlWriter.WriteElementString("Weight", csd.Weight.ToString());
+                    xmlWriter.WriteElementString("Alignment", csd.Alignment);
+                    xmlWriter.WriteElementString("Deity", csd.Height.ToString());
+                    xmlWriter.WriteElementString("Occupation", csd.Occupation);
+                    xmlWriter.WriteStartElement("Languages");
+                    foreach (string lang in csd.LanguagesList)
+                    {
+                        xmlWriter.WriteElementString("Languages", lang);
+                    }
+                    xmlWriter.WriteEndElement(); //Languages
+                    xmlWriter.WriteStartElement("Biography");
+                    foreach (Paragraph paragraph in csd.Biography)
+                    {
+                        foreach (Run r in paragraph.Inlines)
+                        {
+                            xmlWriter.WriteElementString("p", r.Text);
+                        }
+                    }
+                    xmlWriter.WriteEndElement(); //Biography
+                    xmlWriter.WriteStartElement("BaseAbilityScores");
+                    xmlWriter.WriteElementString("Strength", csd.Strength.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteElementString("Dexterity", csd.Dexterity.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteElementString("Constitution", csd.Constitution.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteElementString("Intelligence", csd.Intelligence.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteElementString("Wisdom", csd.Wisdom.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteElementString("Charisma", csd.Charisma.BaseAbilityScoreValue.ToString());
+                    xmlWriter.WriteEndElement(); //BaseAbilityScores
+                    xmlWriter.WriteEndElement(); //Character
+                    xmlWriter.WriteEndDocument();
+                    xmlWriter.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -65,30 +82,88 @@ namespace InteractiveCharacterSheet
             {
                 using (XmlReader reader = XmlReader.Create(inputUrl))
                 {
-                    reader.ReadStartElement("CharacterSheet");
-                    //Character
-                    while (reader.Name == "Character")
+                    reader.MoveToContent();
+                    while (reader.Read())
                     {
-                        XElement el = (XElement)XNode.ReadFrom(reader);
-                        csd.Level = int.Parse(el.Attribute("level").Value);
-                        csd.CharacterName = el.Attribute("charactername").Value;
-                        csd.PlayerName = el.Attribute("playername").Value;
-                        csd.Race = el.Attribute("race").Value;
-                        csd.Size = el.Attribute("size").Value;
-                        csd.Gender = el.Attribute("gender").Value;
-                        csd.Age = int.Parse(el.Attribute("age").Value);
-                        csd.Height = int.Parse(el.Attribute("height").Value);
-                        csd.Weight = int.Parse(el.Attribute("weight").Value);
-                        csd.Alignment = el.Attribute("alignment").Value;
-                        csd.Deity = el.Attribute("deity").Value;
-                        csd.Occupation = el.Attribute("occupation").Value;
-                        csd.Languages = el.Attribute("languages").Value;
-                        csd.Biography = TextToParagraphs(el.Attribute("biography").Value);
-
-                        reader.ReadEndElement();
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            XElement xe = XNode.ReadFrom(reader) as XElement;
+                            switch (xe.Name.LocalName)
+                            {
+                                case "Level":
+                                    csd.Level = (int)xe;
+                                    break;
+                                case "CharacterName":
+                                    csd.CharacterName = (string)xe;
+                                    break;
+                                case "PlayerName":
+                                    csd.PlayerName = (string)xe;
+                                    break;
+                                case "Race":
+                                    csd.Race = (string)xe;
+                                    break;
+                                case "Size":
+                                    csd.Size = (string)xe;
+                                    break;
+                                case "Gender":
+                                    csd.Gender = (string)xe;
+                                    break;
+                                case "Age":
+                                    csd.Age = (int)xe;
+                                    break;
+                                case "Height":
+                                    csd.Height = (int)xe;
+                                    break;
+                                case "Weight":
+                                    csd.Weight = (int)xe;
+                                    break;
+                                case "Alignment":
+                                    csd.Alignment = (string)xe;
+                                    break;
+                                case "Deity":
+                                    csd.Deity = (string)xe;
+                                    break;
+                                case "Occupation":
+                                    csd.Occupation = (string)xe;
+                                    break;
+                                case "Languages":
+                                    string lang = "";
+                                    csd.LanguagesList = LoadLanguages(xe, ref lang);
+                                    csd.Languages = lang;
+                                    break;
+                                case "Biography":
+                                    csd.Biography = TextBlocktoParagraphs(xe);
+                                    break;
+                            }
+                        }
                     }
                 }
             }
+
+            //        reader.ReadStartElement("CharacterSheet");
+            //        //Character
+            //        while (reader.Name == "Character")
+            //        {
+            //            XElement el = (XElement)XNode.ReadFrom(reader);
+            //            csd.Level = int.Parse(el.Attribute("level").Value);
+            //            csd.CharacterName = el.Attribute("charactername").Value;
+            //            csd.PlayerName = el.Attribute("playername").Value;
+            //            csd.Race = el.Attribute("race").Value;
+            //            csd.Size = el.Attribute("size").Value;
+            //            csd.Gender = el.Attribute("gender").Value;
+            //            csd.Age = int.Parse(el.Attribute("age").Value);
+            //            csd.Height = int.Parse(el.Attribute("height").Value);
+            //            csd.Weight = int.Parse(el.Attribute("weight").Value);
+            //            csd.Alignment = el.Attribute("alignment").Value;
+            //            csd.Deity = el.Attribute("deity").Value;
+            //            csd.Occupation = el.Attribute("occupation").Value;
+            //            csd.Languages = el.Attribute("languages").Value;
+            //            csd.Biography = TextToParagraphs(el.Attribute("biography").Value);
+
+            //            reader.ReadEndElement();
+            //        }
+            //    }
+            //}
             catch (Exception ex)
             {
                 csd.Error = new Error(ex.Message);
@@ -328,22 +403,37 @@ namespace InteractiveCharacterSheet
 
         private CharacterClass LoadClass(XElement el)
         {
-            return null;
+            return null; //To be finished.
         }
 
         #endregion
 
-        //private string LoadLanguages(XmlReader inner)
-        //{
-        //    string languages = "";
+        #region Feats
 
-        //    inner.ReadToFollowing("Language");
-        //    while ((inner.NodeType == XmlNodeType.Element) && (inner.Name == "Language"))
-        //    {
-        //        languages += inner.ReadElementContentAsString() + ", ";
-        //    }
-        //    return languages.Substring(0, languages.Length - 2);
-        //}
+        public HashSet<CharacterFeat> LoadFeats()
+        {
+            return null; //To be finished.
+        }
+
+        #endregion
+
+        private List<string> LoadLanguages(XElement el, ref string lang)
+        {
+            List<string> languages = new List<string>();
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                switch (xe.Name.LocalName)
+                {
+                    case "Language":
+                        languages.Add((string)xe);
+                        lang += (string)xe + ", ";
+                        break;
+                }
+            }
+            lang.Substring(0, lang.Length - 2);
+            return languages;
+        }
 
         #region Support Functions
 

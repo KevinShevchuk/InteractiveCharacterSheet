@@ -27,6 +27,7 @@ namespace InteractiveCharacterSheet
         public string Deity { get; set; } = string.Empty;
         public string Occupation { get; set; } = string.Empty;
         public string Languages { get; set; } = string.Empty;
+        public List<string> LanguagesList { get; set; } = new List<string>();
         public List<Paragraph> Biography { get; set; } = new List<Paragraph>();
         internal CharacterAbilityScore Constitution { get; set; } = new CharacterAbilityScore();
         internal CharacterAbilityScore Strength { get; set; } = new CharacterAbilityScore();
@@ -36,6 +37,8 @@ namespace InteractiveCharacterSheet
         internal CharacterAbilityScore Charisma { get; set; } = new CharacterAbilityScore();
         public ObservableCollection<CharacterSkill> Skills { get; set; }
         public ObservableCollection<InventoryRow> Inventory { get; set; }
+        public ObservableCollection<RacialTrait> Traits { get; set; }
+        public ObservableCollection<CharacterFeat> Feats { get; set; }
 
         public CharacterSheetData()
         {
