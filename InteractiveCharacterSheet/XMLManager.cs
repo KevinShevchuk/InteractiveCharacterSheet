@@ -23,7 +23,10 @@ namespace InteractiveCharacterSheet
         {
             try
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(inputUrl))
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+
+                using (XmlWriter xmlWriter = XmlWriter.Create(inputUrl, settings))
                 {
                     xmlWriter.WriteStartDocument();
                     xmlWriter.WriteStartElement("Character");
@@ -37,12 +40,12 @@ namespace InteractiveCharacterSheet
                     xmlWriter.WriteElementString("Height", csd.Height.ToString());
                     xmlWriter.WriteElementString("Weight", csd.Weight.ToString());
                     xmlWriter.WriteElementString("Alignment", csd.Alignment);
-                    xmlWriter.WriteElementString("Deity", csd.Height.ToString());
+                    xmlWriter.WriteElementString("Deity", csd.Deity);
                     xmlWriter.WriteElementString("Occupation", csd.Occupation);
                     xmlWriter.WriteStartElement("Languages");
                     foreach (string lang in csd.LanguagesList)
                     {
-                        xmlWriter.WriteElementString("Languages", lang);
+                        xmlWriter.WriteElementString("Language", lang);
                     }
                     xmlWriter.WriteEndElement(); //Languages
                     xmlWriter.WriteStartElement("Biography");
@@ -134,6 +137,9 @@ namespace InteractiveCharacterSheet
                                 case "Biography":
                                     csd.Biography = TextBlocktoParagraphs(xe);
                                     break;
+                                case "BaseAbilityScores":
+                                    LoadAbilityScores(xe, ref csd);
+                                    break;
                             }
                         }
                     }
@@ -170,6 +176,36 @@ namespace InteractiveCharacterSheet
             }
 
             return csd;
+        }
+
+        public void LoadAbilityScores(XElement el, ref CharacterSheetData csd)
+        {
+            IEnumerable<XElement> nodes = el.Descendants();
+            foreach (XElement xe in nodes)
+            {
+                switch (xe.Name.LocalName)
+                {
+                    case "Strength":
+                        csd.Strength.BaseAbilityScoreValue = (int)xe;
+                        break;
+                    case "Dexterity":
+                        csd.Dexterity.BaseAbilityScoreValue = (int)xe;
+                        break;
+                    case "Constitution":
+                        csd.Constitution.BaseAbilityScoreValue = (int)xe;
+                        break;
+                    case "Intelligence":
+                        csd.Intelligence.BaseAbilityScoreValue = (int)xe;
+                        break;
+                    case "Wisdom":
+                        csd.Wisdom.BaseAbilityScoreValue = (int)xe;
+                        break;
+                    case "Charisma":
+                        csd.Charisma.BaseAbilityScoreValue = (int)xe;
+                        break;
+                }
+            }
+            return;
         }
 
         #region Skills

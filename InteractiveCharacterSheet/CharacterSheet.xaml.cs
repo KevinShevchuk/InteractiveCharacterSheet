@@ -50,13 +50,12 @@ namespace InteractiveCharacterSheet
                 inputUrl = saveFileDialog1.FileName;
                 SaveBiography();
                 CharSheetPresenter.SaveCharacterSheet(inputUrl);
-                if (CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
+                if (CharSheetPresenter.CharSheetData.Error != null)
                 {
-                    MessageBox.Show(CharSheetPresenter.CharSheetData.Error.ErrorMessage, "Error", MessageBoxButton.OK);
-                }
-                else
-                {
-
+                    if (CharSheetPresenter.CharSheetData.Error.ErrorMessage != string.Empty)
+                    {
+                        MessageBox.Show(CharSheetPresenter.CharSheetData.Error.ErrorMessage, "Error", MessageBoxButton.OK);
+                    }
                 }
             }
         }
