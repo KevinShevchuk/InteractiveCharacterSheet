@@ -22,7 +22,7 @@ namespace InteractiveCharacterSheet
         public void LoadCharacterSheet(string inputUrl)
         {
             LoadEmptyCharacterSheet();
-            CharSheetData = XManager.LoadCharacterSheet(inputUrl);
+            XManager.LoadCharacterSheet(inputUrl, ref CharSheetData);
         }
 
         public void LoadEmptyCharacterSheet()
