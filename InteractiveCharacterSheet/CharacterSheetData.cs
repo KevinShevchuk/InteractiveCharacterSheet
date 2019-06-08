@@ -10,8 +10,6 @@ namespace InteractiveCharacterSheet
 {
     class CharacterSheetData
     {
-        private CharacterModCollection _modifications;
-
         public Error Error;
 
         public string CharacterName { get; set; } = string.Empty;
@@ -19,6 +17,7 @@ namespace InteractiveCharacterSheet
         public int Level { get; set; } = 0;
         public string Race { get; set; } = string.Empty;
         public string Size { get; set; } = string.Empty;
+        public CharacterSize CharSize { get; set; }
         public string Gender { get; set; } = string.Empty;
         public int Height { get; set; } = 0;
         public int Weight { get; set; } = 0;
@@ -39,7 +38,8 @@ namespace InteractiveCharacterSheet
         public ObservableCollection<InventoryRow> Inventory { get; set; }
         public ObservableCollection<RacialTrait> Traits { get; set; }
         public ObservableCollection<CharacterFeat> Feats { get; set; }
-
+        public CharacterModCollection Modifications { get; set; }
+        
         public CharacterSheetData()
         {
 

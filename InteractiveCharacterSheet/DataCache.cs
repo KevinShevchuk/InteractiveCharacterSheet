@@ -27,7 +27,7 @@ namespace InteractiveCharacterSheet
             LoadSkills();
             LoadRaces();
             LoadClasses();
-            //LoadFeats();
+            LoadFeats();
         }
 
         private void LoadAlignments()

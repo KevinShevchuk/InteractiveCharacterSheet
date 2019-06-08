@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
@@ -69,18 +70,39 @@ namespace InteractiveCharacterSheet
                     foreach (CharacterSkill cs in csd.Skills)
                     {
                         if(cs.BaseSkillValue > 0)
+                        {
                             xmlWriter.WriteElementString(cs.SkillName, cs.BaseSkillValue.ToString());
+                        }
                     }
                     xmlWriter.WriteEndElement(); //Skills
+                    xmlWriter.WriteStartElement("Traits");
+                    foreach (RacialTrait rt in csd.Traits)
+                    {
+                        xmlWriter.WriteElementString("Trait", rt.Name);
+                    }
+                    xmlWriter.WriteEndElement(); //Traits
+                    xmlWriter.WriteStartElement("Feats");
+                    foreach (CharacterFeat cf in csd.Feats)
+                    {
+                        xmlWriter.WriteElementString("Feat", cf.Name);
+                    };
+                    xmlWriter.WriteEndElement(); //Feats
                     xmlWriter.WriteEndElement(); //Character
                     xmlWriter.WriteEndDocument();
                     xmlWriter.Close();
-
                 }
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                csd.Error = new Error(ex.Message);
+                csd.Error = new Error(ex.ToString());
+            }
+            catch (EncoderFallbackException ex)
+            {
+                csd.Error = new Error(ex.ToString());
+            }
+            catch (ArgumentException ex)
+            {
+                csd.Error = new Error(ex.ToString());
             }
 
             return csd;
@@ -326,10 +348,16 @@ namespace InteractiveCharacterSheet
                 switch (xe.Name.LocalName)
                 {
                     case "Name":
-                        race.RaceName = (string)xe;
+                        if (race.RaceName == null)
+                        {
+                            race.RaceName = (string)xe;
+                        }
                         break;
                     case "DisplayName":
-                        race.RaceDisplayName = (string)xe;
+                        if (race.RaceDisplayName == null)
+                        {
+                            race.RaceDisplayName = (string)xe;
+                        }
                         break;
                     case "Size":
                         race.Size = (string)xe;

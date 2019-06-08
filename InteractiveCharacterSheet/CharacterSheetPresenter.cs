@@ -17,6 +17,8 @@ namespace InteractiveCharacterSheet
             DCache = new DataCache();
             XManager = new XMLManager();
             CharSheetData = new CharacterSheetData();
+            LoadModificationSources();
+            ApplyModifications();
         }
 
         public void LoadCharacterSheet(string inputUrl)
@@ -33,6 +35,24 @@ namespace InteractiveCharacterSheet
         public void SaveCharacterSheet(string inputUrl)
         {
             CharSheetData = XManager.SaveCharacterSheet(CharSheetData, inputUrl);
+        }
+
+        public void LoadModificationSources()
+        {
+            CharSheetData.Traits.Clear();
+            CharSheetData.Size == null;
+
+            CharacterRace charRace = DCache.Races.First(r => r.RaceName = CharSheetData.Race);
+            foreach (RacialTrait rt in charRace.TraitList)
+            {
+                CharSheetData.Traits.Add(rt);
+            }
+            CharSheetData.CharSize = DCache.Sizes.First(s => s.Name = CharSheetData.Size);
+        }
+
+        public void ApplyModifications()
+        {
+            
         }
     }
 }
